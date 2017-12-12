@@ -1,2 +1,2 @@
 # NetflixStatistics
-NetflixStatistics
+Netflix Statistics
