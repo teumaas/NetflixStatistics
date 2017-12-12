@@ -1,10 +1,12 @@
+package UserInterface;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class userInterface implements Runnable{
+public class UserInterface implements Runnable{
     private JFrame frame;
 
-    public userInterface(){
+    public UserInterface(){
     }
 
     @Override
@@ -21,16 +23,18 @@ public class userInterface implements Runnable{
     }
 
     private void createComponents(Container container){
-        GridLayout layout = new GridLayout(1,5);
-        container.setLayout(layout);
+        container.add(createSideBar(), BorderLayout.WEST);
+        container.add(createFooter(), BorderLayout.SOUTH);
+    }
 
-        JTextArea blokEen = new JTextArea("Blokje één");
-        JTextArea blokTwee = new JTextArea("Blokje twee");
-        JTextArea blokDrie = new JTextArea("Blokje drie");
+    public JPanel createSideBar(){
+        SideBar sidebar = new SideBar();
+        return sidebar.getSideBar();
+    }
 
-        container.add(blokEen);
-        container.add(blokTwee);
-        container.add(blokDrie);
+    public JPanel createFooter(){
+        Footer footer = new Footer();
+        return footer.getFooter();
     }
 
     public JFrame getFrame(){
