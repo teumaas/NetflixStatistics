@@ -1,20 +1,14 @@
 import java.sql.*;
 
 public class DatabaseHandler {
-
-    private String databaseName;
     private String connectionURL;
-    private boolean integratedSecurity;
 
     private Connection connection = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
 
     public DatabaseHandler(String databaseName, boolean integratedSecurity) {
-        this.databaseName = databaseName;
-        this.integratedSecurity = integratedSecurity;
-
-        this.connectionURL = "jdbc:sqlserver://localhost\\SQLEXPRESS;databaseName=" + this.databaseName + ";integratedSecurity="+ this.integratedSecurity +";";
+        this.connectionURL = "jdbc:sqlserver://localhost\\SQLEXPRESS;databaseName=" + databaseName + ";integratedSecurity="+ integratedSecurity +";";
     }
 
     public void connect()  {
@@ -23,8 +17,7 @@ public class DatabaseHandler {
             connection = DriverManager.getConnection(this.connectionURL);
 
             System.out.println("Successfully connected!");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
