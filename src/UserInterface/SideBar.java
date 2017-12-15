@@ -18,7 +18,6 @@ public class SideBar{
 
     public JToolBar createNavbar(){
         JToolBar navbar = new JToolBar("Navigatie", BoxLayout.Y_AXIS);
-        navbar.setFloatable(false);
 
         JButton add = new JButton("Toevoegen");
         JButton alter = new JButton("Wijzigen");
@@ -29,7 +28,9 @@ public class SideBar{
         JButton longestTime = new JButton("Langste film voor onder 16");
         JButton oneProfile = new JButton("Accounts met één profiel");
         JButton fullyWatched = new JButton("Hoeveel keer afgekeken");
-        
+
+        add.setMargin(new Insets(0,0,0,100));
+
         navbar.add(add);
         navbar.add(alter);
         navbar.add(delete);
