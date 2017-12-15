@@ -12,17 +12,34 @@ public class SideBar{
         GridLayout layout = new GridLayout(2, 1);
         this.sideBar.setLayout(layout);
 
-        this.sideBar.add(createNavbar());
         this.sideBar.add(createInformation());
+        this.sideBar.add(createNavbar());
     }
 
     public JToolBar createNavbar(){
         JToolBar navbar = new JToolBar("Navigatie", BoxLayout.Y_AXIS);
         navbar.setFloatable(false);
 
-        JButton button = new JButton("Optie één");
-
-        navbar.add(button, BorderLayout.SOUTH);
+        JButton add = new JButton("Toevoegen");
+        JButton alter = new JButton("Wijzigen");
+        JButton delete = new JButton("Verwijderen");
+        JButton percentageGeneral = new JButton("Gemiddeld % per aflevering");
+        JButton percentageAccount = new JButton("Gemiddeld % per account");
+        JButton moviesWatched = new JButton("Films bekeken per account");
+        JButton longestTime = new JButton("Langste film voor onder 16");
+        JButton oneProfile = new JButton("Accounts met één profiel");
+        JButton fullyWatched = new JButton("Hoeveel keer afgekeken");
+        
+        navbar.add(add);
+        navbar.add(alter);
+        navbar.add(delete);
+        navbar.add(percentageGeneral);
+        navbar.add(percentageAccount);
+        navbar.add(moviesWatched);
+        navbar.add(moviesWatched);
+        navbar.add(longestTime);
+        navbar.add(oneProfile);
+        navbar.add(fullyWatched);
 
         return navbar;
     }
@@ -30,7 +47,7 @@ public class SideBar{
     public JPanel createInformation(){
         JPanel information = new JPanel();
 
-        JLabel greetings = new JLabel("Welkom!");
+        JLabel greetings = new JLabel("Welkom");
 
         information.add(greetings);
 
