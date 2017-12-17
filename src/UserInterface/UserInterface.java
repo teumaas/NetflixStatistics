@@ -37,6 +37,10 @@ public class UserInterface implements Runnable{
         return footer.getFooter();
     }
 
+    public JPanel createLandingPage(){
+
+    }
+
     public JFrame getFrame(){
         return frame;
     }
