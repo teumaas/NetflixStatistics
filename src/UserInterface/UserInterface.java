@@ -25,6 +25,7 @@ public class UserInterface implements Runnable{
     private void createComponents(Container container){
         container.add(createSideBar(), BorderLayout.WEST);
         container.add(createFooter(), BorderLayout.SOUTH);
+        container.add(createLandingPage(), BorderLayout.EAST);
     }
 
     public JPanel createSideBar(){
@@ -38,7 +39,8 @@ public class UserInterface implements Runnable{
     }
 
     public JPanel createLandingPage(){
-
+        LandingPage landingpage = new LandingPage();
+        return landingpage.getLandingPage();
     }
 
     public JFrame getFrame(){
