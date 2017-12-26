@@ -19,6 +19,7 @@ public class SideBar{
 
     public JToolBar createNavbar(){
         JToolBar navbar = new JToolBar("Navigatie", BoxLayout.Y_AXIS);
+        navbar.setFloatable(false);
 
         ArrayList<JButton> button = createButtons();
 
