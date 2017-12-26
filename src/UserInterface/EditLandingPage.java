@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class EditLandingPage {
+    private GridBagConstraints constraints = new GridBagConstraints();
     private JPanel content;
 
     public EditLandingPage() {
@@ -13,28 +14,47 @@ public class EditLandingPage {
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
-        String[] petStrings = {"-Selecteer-                                                                     ","Accounts", "Profielen", "Bekeken programma's"};
-        JComboBox petList = new JComboBox(petStrings);
+        String[] selectStrings = {"-Selecteer-                                                                     ","Accounts", "Profielen", "Bekeken programma's"};
+        JComboBox selectList = new JComboBox(selectStrings);
         constraints.gridx = 0;
         constraints.gridy = 0;
-        this.content.add(petList, constraints);
+        this.content.add(selectList, constraints);
 
-        JPanel createEditAccounts = createEditAccounts();
+        createEditProfiles();
+        createEditWatched();
+        createEditAccounts();
+    }
+
+    private void createEditAccounts(){
+        EditAccounts editaccounts = new EditAccounts();
+        JPanel returnValue = editaccounts.getEditAccounts();
+
         constraints.gridx = 0;
         constraints.gridy = 1;
-        this.content.add(createEditAccounts, constraints);
 
-        JButton submit = new JButton("Opslaan");
+        this.content.add(returnValue, this.constraints);
+    }
+
+    private void createEditProfiles(){
+        EditProfiles editprofiles = new EditProfiles();
+        JPanel returnValue = editprofiles.getEditProfiles();
+
         constraints.gridx = 0;
-        constraints.gridy = 2;
-        this.content.add(submit, constraints);
+        constraints.gridy = 1;
 
+        this.content.add(returnValue, this.constraints);
     }
 
-    private JPanel createEditAccounts(){
-        EditAccounts editaccounts = new EditAccounts();
-        return editaccounts.getEditAccounts();
+    private void createEditWatched(){
+        EditWatched editwatched = new EditWatched();
+        JPanel returnValue = editwatched.getEditWatched();
+
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+
+        this.content.add(returnValue, this.constraints);
     }
+
 
     public JPanel getEditLandingPage() {
         return this.content;

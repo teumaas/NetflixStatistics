@@ -63,6 +63,11 @@ public class EditAccounts {
         constraints.gridy = 4;
         this.content.add(placeValue, constraints);
 
+        JButton submit = new JButton("Opslaan");
+        constraints.gridx = 0;
+        constraints.gridy = 5;
+        this.content.add(submit, constraints);
+
     }
 
     public JPanel getEditAccounts(){
