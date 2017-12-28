@@ -1,7 +1,5 @@
 package UserInterface.Edit;
 
-import UserInterface.UserInterface;
-//import src.main.java;
 import javax.swing.*;
 import java.awt.*;
 
