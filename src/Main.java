@@ -10,8 +10,9 @@ public class Main {
         UserInterface ui = new UserInterface();
         SwingUtilities.invokeLater(ui);
 
-        DatabaseHandler databaseHandler = new DatabaseHandler("Bibliotheek", true);
-
+        DatabaseHandler databaseHandler = new DatabaseHandler("NetflixStatistix", true);
         databaseHandler.testConnection();
+
+        databaseHandler.getAccounts();
     }
 }

@@ -1,5 +1,6 @@
 import java.sql.*;
 
+
 public class DatabaseHandler {
     private String connectionURL;
 
@@ -32,4 +33,23 @@ public class DatabaseHandler {
     {
         connect();
     }
+
+    public void getAccounts() {
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM Abonnee;");
+
+            while (resultSet.next()) {
+                String Naam = resultSet.getString("Naam");
+                String Adres = resultSet.getString("Adres");
+                String Huisnummer = resultSet.getString("Huisnummer");
+                String Postcode = resultSet.getString("Postcode");
+                String Woonplaats = resultSet.getString("Woonplaats");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
