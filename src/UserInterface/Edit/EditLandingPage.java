@@ -2,11 +2,14 @@ package UserInterface.Edit;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class EditLandingPage {
     private GridBagConstraints constraints = new GridBagConstraints();
     private JPanel content;
     protected JPanel subscreen;
+    private String[] selectStrings = {"-Selecteer-                                                                     ","Accounts", "Profielen", "Bekeken programma's"};
 
     public EditLandingPage() {
         this.content = new JPanel();
@@ -17,14 +20,17 @@ public class EditLandingPage {
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
-        String[] selectStrings = {"-Selecteer-                                                                     ","Accounts", "Profielen", "Bekeken programma's"};
-        JComboBox selectList = new JComboBox(selectStrings);
+        JComboBox selectList = new JComboBox(this.selectStrings);
         this.constraints.gridx = 0;
         this.constraints.gridy = 1;
 
-        LandingPageListener selecter = new LandingPageListener();
-        selectList.addActionListener(selecter);
-
+        ActionListener actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                ItemSelectable is = (ItemSelectable)actionEvent.getSource();
+                selectedString(is);
+            }
+        };
+        selectList.addActionListener(actionListener);
 
         this.content.add(selectList, constraints);
 
@@ -32,7 +38,36 @@ public class EditLandingPage {
         this.constraints.gridy = 2;
     }
 
-    protected void createEditAccounts(){
+    private String selectedString(ItemSelectable is) {
+        Object selected[] = is.getSelectedObjects();
+        String selectedValue = ((String)selected[0]);
+
+        if(selectedValue == (this.selectStrings[0])){
+            clearScreen();
+        }
+
+        else if(selectedValue == (this.selectStrings[1])){
+            createEditAccounts();
+        }
+
+        else if(selectedValue == (this.selectStrings[2])){
+            createEditProfiles();
+        }
+
+        else if(selectedValue == (this.selectStrings[3])){
+            createEditWatched();
+        }
+
+        return selectedValue;
+    }
+
+    private void clearScreen(){
+        this.subscreen.removeAll();
+
+        this.content.validate();
+    }
+
+    private void createEditAccounts(){
         this.subscreen.removeAll();
 
         EditAccounts editaccounts = new EditAccounts();
@@ -40,9 +75,11 @@ public class EditLandingPage {
 
         this.subscreen.add(returnValueAccounts);
         this.content.add(this.subscreen, this.constraints);
+
+        this.content.validate();
     }
 
-    protected void createEditProfiles(){
+    private void createEditProfiles(){
         this.subscreen.removeAll();
 
         EditProfiles editprofiles = new EditProfiles();
@@ -51,9 +88,10 @@ public class EditLandingPage {
         this.subscreen.add(returnValueProfiles);
         this.content.add(this.subscreen, this.constraints);
 
+        this.content.validate();
     }
 
-    protected void createEditWatched(){
+    private void createEditWatched(){
         this.subscreen.removeAll();
 
         EditWatched editwatched = new EditWatched();
@@ -61,6 +99,8 @@ public class EditLandingPage {
 
         this.subscreen.add(returnValueWatched);
         this.content.add(this.subscreen, this.constraints);
+
+        this.content.validate();
     }
 
     public JPanel getEditLandingPage() {
