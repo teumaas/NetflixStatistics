@@ -1,5 +1,7 @@
 package UserInterface;
 
+import UserInterface.Edit.EditLandingPage;
+
 import javax.swing.*;
 import java.awt.*;
 

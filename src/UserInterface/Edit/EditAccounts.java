@@ -1,4 +1,6 @@
-package UserInterface;
+package UserInterface.Edit;
+
+import UserInterface.UserInterface;
 
 import javax.swing.*;
 import java.awt.*;

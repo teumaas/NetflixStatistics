@@ -1,12 +1,14 @@
-package UserInterface;
+package UserInterface.Edit;
+
+import UserInterface.UserInterface;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class EditProfiles {
+public class EditWatched {
     private JPanel content;
 
-    public EditProfiles(){
+    public EditWatched(){
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
@@ -25,34 +27,29 @@ public class EditProfiles {
         constraints.gridy = 0;
         this.content.add(selectProfile, constraints);
 
-        JLabel currentName = new JLabel("Huidige naam: ");
+        String[] selectProgrammeList = {"-Selecteer programma-"};
+        JComboBox selectProgramme = new JComboBox(selectProgrammeList);
+        constraints.gridx = 2;
+        constraints.gridy = 0;
+        this.content.add(selectProgramme, constraints);
+
+        JLabel currentName = new JLabel("Percentage bekeken: ");
         constraints.gridx = 0;
         constraints.gridy = 1;
         this.content.add(currentName, constraints);
 
-        JTextArea nameValue = new JTextArea("--naam--");
+        JTextArea nameValue = new JTextArea("--percentage--");
         constraints.gridx = 1;
         constraints.gridy = 1;
         this.content.add(nameValue, constraints);
 
-        JLabel currentDateOfBirth = new JLabel("Huidige geboortedatum: ");
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        this.content.add(currentDateOfBirth, constraints);
-
-        JTextArea dateOfBirthValue = new JTextArea("--geboortedatum--");
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        this.content.add(dateOfBirthValue, constraints);
-
         JButton submit = new JButton("Opslaan");
         constraints.gridx = 0;
-        constraints.gridy = 3;
+        constraints.gridy = 2;
         this.content.add(submit, constraints);
-
     }
 
-    public JPanel getEditProfiles(){
+    public JPanel getEditWatched(){
         return this.content;
     }
 }
