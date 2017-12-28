@@ -1,7 +1,7 @@
 package UserInterface.Edit;
 
 import UserInterface.UserInterface;
-
+//import src.main.java;
 import javax.swing.*;
 import java.awt.*;
 
@@ -69,7 +69,6 @@ public class EditAccounts {
         constraints.gridx = 0;
         constraints.gridy = 5;
         this.content.add(submit, constraints);
-
     }
 
     public JPanel getEditAccounts(){

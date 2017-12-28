@@ -1,3 +1,4 @@
+import Database.DatabaseHandler;
 import UserInterface.UserInterface;
 
 import javax.swing.*;
