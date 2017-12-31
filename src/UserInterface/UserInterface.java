@@ -29,7 +29,7 @@ public class UserInterface implements Runnable{
     private void createComponents(Container container){
         container.add(createSideBar(), BorderLayout.WEST);
         container.add(createFooter(), BorderLayout.SOUTH);
-        container.add(createNewLandingPage());
+        container.add(createAveragePercentageEpisode());
     }
 
     public JPanel createSideBar(){
@@ -60,6 +60,36 @@ public class UserInterface implements Runnable{
     public JPanel createNewLandingPage(){
         NewLandingPage landingpage = new NewLandingPage();
         return landingpage.getNewLandingPage();
+    }
+
+    public JPanel createHowManyTimesFullyWatched(){
+        HowManyTimesFullyWatched howmanytimesfullywatched = new HowManyTimesFullyWatched();
+        return howmanytimesfullywatched.getHowManyTimesFullyWatched();
+    }
+
+    public JPanel createAccountsOneProfile(){
+        AccountsOneProfile accountsoneprofile = new AccountsOneProfile();
+        return accountsoneprofile.getAccountsOneProfile();
+    }
+
+    public JPanel createLongestMovieBelowSixteen(){
+        LongestMovieBelowSixteen longestmoviebelowsixteen = new LongestMovieBelowSixteen();
+        return longestmoviebelowsixteen.getLongestMovieBelowSixteen();
+    }
+
+    public JPanel createMoviesWatchedAccount(){
+        MoviesWatchedAccount movieswatchedaccount = new MoviesWatchedAccount();
+        return movieswatchedaccount.getMoviesWatchedAccount();
+    }
+
+    public JPanel createAveragePercentageAccount(){
+        AveragePercentageAccount averagepercentageaccount = new AveragePercentageAccount();
+        return averagepercentageaccount.getAveragePercentageAccount();
+    }
+
+    public JPanel createAveragePercentageEpisode(){
+        AveragePercentageEpisode averagepercentageepisode = new AveragePercentageEpisode();
+        return averagepercentageepisode.getAveragePercentageEpisode();
     }
 
     public JFrame getFrame(){
