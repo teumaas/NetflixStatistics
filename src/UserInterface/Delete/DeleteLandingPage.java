@@ -1,17 +1,17 @@
-package UserInterface.Edit;
+package UserInterface.Delete;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EditLandingPage {
+public class DeleteLandingPage {
     private GridBagConstraints constraints = new GridBagConstraints();
     private JPanel content;
     private JPanel subscreen;
     private String[] selectStrings = {"-Selecteer-                                                                     ","Accounts", "Profielen", "Bekeken programma's"};
 
-    public EditLandingPage() {
+    public DeleteLandingPage(){
         this.content = new JPanel();
         this.subscreen = new JPanel();
 
@@ -47,15 +47,15 @@ public class EditLandingPage {
         }
 
         else if(selectedValue == (this.selectStrings[1])){
-            createEditAccounts();
+            createDeleteAccounts();
         }
 
         else if(selectedValue == (this.selectStrings[2])){
-            createEditProfiles();
+            createDeleteProfiles();
         }
 
         else if(selectedValue == (this.selectStrings[3])){
-            createEditWatched();
+            createDeleteWatched();
         }
     }
 
@@ -65,11 +65,11 @@ public class EditLandingPage {
         this.content.validate();
     }
 
-    private void createEditAccounts(){
+    private void createDeleteAccounts(){
         this.subscreen.removeAll();
 
-        EditAccounts editaccounts = new EditAccounts();
-        JPanel returnValueAccounts = editaccounts.getEditAccounts();
+        DeleteAccounts deleteaccounts = new DeleteAccounts();
+        JPanel returnValueAccounts = deleteaccounts.getDeleteAccounts();
 
         this.subscreen.add(returnValueAccounts);
         this.content.add(this.subscreen, this.constraints);
@@ -77,11 +77,11 @@ public class EditLandingPage {
         this.content.validate();
     }
 
-    private void createEditProfiles(){
+    private void createDeleteProfiles(){
         this.subscreen.removeAll();
 
-        EditProfiles editprofiles = new EditProfiles();
-        JPanel returnValueProfiles = editprofiles.getEditProfiles();
+        DeleteProfiles deleteprofiles = new DeleteProfiles();
+        JPanel returnValueProfiles = deleteprofiles.getDeleteprofiles();
 
         this.subscreen.add(returnValueProfiles);
         this.content.add(this.subscreen, this.constraints);
@@ -89,11 +89,11 @@ public class EditLandingPage {
         this.content.validate();
     }
 
-    private void createEditWatched(){
+    private void createDeleteWatched(){
         this.subscreen.removeAll();
 
-        EditWatched editwatched = new EditWatched();
-        JPanel returnValueWatched = editwatched.getEditWatched();
+        DeleteWatched deletewatched = new DeleteWatched();
+        JPanel returnValueWatched = deletewatched.getDeleteWatched();
 
         this.subscreen.add(returnValueWatched);
         this.content.add(this.subscreen, this.constraints);
@@ -101,7 +101,7 @@ public class EditLandingPage {
         this.content.validate();
     }
 
-    public JPanel getEditLandingPage() {
+    public JPanel getDeleteLandingPage(){
         return this.content;
     }
 }

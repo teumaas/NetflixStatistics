@@ -1,6 +1,8 @@
 package UserInterface;
 
+import UserInterface.Delete.DeleteLandingPage;
 import UserInterface.Edit.EditLandingPage;
+import UserInterface.New.NewLandingPage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +29,7 @@ public class UserInterface implements Runnable{
     private void createComponents(Container container){
         container.add(createSideBar(), BorderLayout.WEST);
         container.add(createFooter(), BorderLayout.SOUTH);
-        container.add(createEditLandingPage());
+        container.add(createNewLandingPage());
     }
 
     public JPanel createSideBar(){
@@ -48,6 +50,16 @@ public class UserInterface implements Runnable{
     public JPanel createEditLandingPage(){
         EditLandingPage landingpage = new EditLandingPage();
         return landingpage.getEditLandingPage();
+    }
+
+    public JPanel createDeleteLandingPage(){
+        DeleteLandingPage landingpage = new DeleteLandingPage();
+        return landingpage.getDeleteLandingPage();
+    }
+
+    public JPanel createNewLandingPage(){
+        NewLandingPage landingpage = new NewLandingPage();
+        return landingpage.getNewLandingPage();
     }
 
     public JFrame getFrame(){
