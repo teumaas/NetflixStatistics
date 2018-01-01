@@ -3,13 +3,12 @@ package UserInterface;
 import javax.swing.*;
 import java.awt.*;
 
-public class AccountsOneProfile {
+class AccountsOneProfile {
     private JPanel content;
 
-    public AccountsOneProfile(){
+    AccountsOneProfile(){
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
-
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
@@ -19,7 +18,7 @@ public class AccountsOneProfile {
         this.content.add(oneProfile, constraints);
     }
 
-    public JPanel getAccountsOneProfile(){
+    JPanel getAccountsOneProfile(){
         return this.content;
     }
 }

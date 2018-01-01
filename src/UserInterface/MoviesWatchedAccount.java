@@ -3,10 +3,10 @@ package UserInterface;
 import javax.swing.*;
 import java.awt.*;
 
-public class MoviesWatchedAccount {
+class MoviesWatchedAccount {
     private JPanel content;
 
-    public MoviesWatchedAccount(){
+    MoviesWatchedAccount(){
         this.content = new JPanel();
 
         GridBagLayout layout = new GridBagLayout();
@@ -32,7 +32,7 @@ public class MoviesWatchedAccount {
         this.content.add(addedMovie, constraints);
     }
 
-    public JPanel getMoviesWatchedAccount(){
+    JPanel getMoviesWatchedAccount(){
         return this.content;
     }
 }

@@ -3,10 +3,10 @@ package UserInterface.Delete;
 import javax.swing.*;
 import java.awt.*;
 
-public class DeleteAccounts {
+class DeleteAccounts {
     private JPanel content;
 
-    public DeleteAccounts(){
+    DeleteAccounts(){
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
@@ -26,7 +26,7 @@ public class DeleteAccounts {
 
     }
 
-    public JPanel getDeleteAccounts(){
+    JPanel getDeleteAccounts(){
         return this.content;
     }
 }

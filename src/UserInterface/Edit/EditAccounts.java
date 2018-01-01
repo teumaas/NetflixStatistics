@@ -3,10 +3,10 @@ package UserInterface.Edit;
 import javax.swing.*;
 import java.awt.*;
 
-public class EditAccounts {
+class EditAccounts {
     private JPanel content;
 
-    public EditAccounts(){
+    EditAccounts(){
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
@@ -76,7 +76,7 @@ public class EditAccounts {
 
     }
 
-    public JPanel getEditAccounts(){
+    JPanel getEditAccounts(){
         return this.content;
     }
 }

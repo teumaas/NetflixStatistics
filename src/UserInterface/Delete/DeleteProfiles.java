@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class DeleteProfiles {
+class DeleteProfiles {
     private JPanel content;
 
-    public DeleteProfiles() {
+    DeleteProfiles() {
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
@@ -32,7 +32,7 @@ public class DeleteProfiles {
         this.content.add(submit, constraints);
     }
 
-    public JPanel getDeleteprofiles(){
+    JPanel getDeleteprofiles(){
         return this.content;
     }
 }

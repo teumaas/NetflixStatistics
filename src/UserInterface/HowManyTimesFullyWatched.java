@@ -5,12 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HowManyTimesFullyWatched {
+class HowManyTimesFullyWatched {
     private JPanel content;
-    private String value;
 
-
-    public HowManyTimesFullyWatched(){
+    HowManyTimesFullyWatched(){
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
@@ -42,7 +40,7 @@ public class HowManyTimesFullyWatched {
         String selectedValue = ((String)selected[0]);
     }
 
-    public JPanel getHowManyTimesFullyWatched(){
+    JPanel getHowManyTimesFullyWatched(){
         return this.content;
     }
 }

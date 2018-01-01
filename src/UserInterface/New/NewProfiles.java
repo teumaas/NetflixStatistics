@@ -3,10 +3,10 @@ package UserInterface.New;
 import javax.swing.*;
 import java.awt.*;
 
-public class NewProfiles {
+class NewProfiles {
     private JPanel content;
 
-    public NewProfiles(){
+    NewProfiles(){
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
@@ -45,7 +45,7 @@ public class NewProfiles {
         this.content.add(submit, constraints);
     }
 
-    public JPanel getNewProfiles(){
+    JPanel getNewProfiles(){
         return this.content;
     }
 }

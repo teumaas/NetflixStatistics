@@ -1,14 +1,12 @@
 package UserInterface.Edit;
 
-import UserInterface.UserInterface;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class EditWatched {
+class EditWatched {
     private JPanel content;
 
-    public EditWatched(){
+    EditWatched(){
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
@@ -49,7 +47,7 @@ public class EditWatched {
         this.content.add(submit, constraints);
     }
 
-    public JPanel getEditWatched(){
+    JPanel getEditWatched(){
         return this.content;
     }
 }

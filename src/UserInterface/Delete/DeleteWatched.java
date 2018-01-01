@@ -3,10 +3,10 @@ package UserInterface.Delete;
 import javax.swing.*;
 import java.awt.*;
 
-public class DeleteWatched {
+class DeleteWatched {
     private JPanel content;
 
-    public DeleteWatched() {
+    DeleteWatched() {
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
@@ -37,7 +37,7 @@ public class DeleteWatched {
         this.content.add(submit, constraints);
     }
 
-    public JPanel getDeleteWatched() {
+    JPanel getDeleteWatched() {
         return this.content;
     }
 }

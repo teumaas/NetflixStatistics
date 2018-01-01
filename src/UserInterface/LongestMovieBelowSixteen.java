@@ -3,10 +3,10 @@ package UserInterface;
 import javax.swing.*;
 import java.awt.*;
 
-public class LongestMovieBelowSixteen {
+class LongestMovieBelowSixteen {
     private JPanel content;
 
-    public LongestMovieBelowSixteen(){
+    LongestMovieBelowSixteen(){
          this.content = new JPanel();
 
         GridBagLayout layout = new GridBagLayout();
@@ -19,7 +19,7 @@ public class LongestMovieBelowSixteen {
         this.content.add(longestMovie, constraints);
     }
 
-    public JPanel getLongestMovieBelowSixteen(){
+    JPanel getLongestMovieBelowSixteen(){
         return this.content;
     }
 }

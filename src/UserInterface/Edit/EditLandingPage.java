@@ -20,9 +20,19 @@ public class EditLandingPage {
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
-        JComboBox selectList = new JComboBox(this.selectStrings);
+        JLabel title = new JLabel("Wijzigen");
+        title.setFont(new Font("Arial", Font.BOLD, 20));
         this.constraints.gridx = 0;
         this.constraints.gridy = 1;
+        this.content.add(title, this.constraints);
+
+        JComboBox selectList = new JComboBox(this.selectStrings);
+        this.constraints.gridx = 0;
+        this.constraints.gridy = 2;
+        this.content.add(selectList, this.constraints);
+
+        this.constraints.gridx = 0;
+        this.constraints.gridy = 3;
 
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -31,37 +41,31 @@ public class EditLandingPage {
             }
         };
         selectList.addActionListener(actionListener);
-
-        this.content.add(selectList, constraints);
-
-        this.constraints.gridx = 0;
-        this.constraints.gridy = 2;
     }
 
     private void selectedString(ItemSelectable is) {
         Object selected[] = is.getSelectedObjects();
         String selectedValue = ((String)selected[0]);
 
-        if(selectedValue == (this.selectStrings[0])){
+        if(selectedValue.equals(this.selectStrings[0])){
             clearScreen();
         }
 
-        else if(selectedValue == (this.selectStrings[1])){
+        else if(selectedValue.equals(this.selectStrings[1])){
             createEditAccounts();
         }
 
-        else if(selectedValue == (this.selectStrings[2])){
+        else if(selectedValue.equals(this.selectStrings[2])){
             createEditProfiles();
         }
 
-        else if(selectedValue == (this.selectStrings[3])){
+        else if(selectedValue.equals(this.selectStrings[3])){
             createEditWatched();
         }
     }
 
     private void clearScreen(){
         this.subscreen.removeAll();
-
         this.content.validate();
     }
 
@@ -73,7 +77,6 @@ public class EditLandingPage {
 
         this.subscreen.add(returnValueAccounts);
         this.content.add(this.subscreen, this.constraints);
-
         this.content.validate();
     }
 
@@ -85,7 +88,6 @@ public class EditLandingPage {
 
         this.subscreen.add(returnValueProfiles);
         this.content.add(this.subscreen, this.constraints);
-
         this.content.validate();
     }
 
@@ -97,7 +99,6 @@ public class EditLandingPage {
 
         this.subscreen.add(returnValueWatched);
         this.content.add(this.subscreen, this.constraints);
-
         this.content.validate();
     }
 

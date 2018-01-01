@@ -5,10 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AveragePercentageEpisode {
+class AveragePercentageEpisode {
     private JPanel content;
 
-    public AveragePercentageEpisode(){
+    AveragePercentageEpisode(){
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
@@ -46,7 +46,7 @@ public class AveragePercentageEpisode {
         String selectedValue = ((String)selected[0]);
     }
 
-    public JPanel getAveragePercentageEpisode(){
+    JPanel getAveragePercentageEpisode(){
         return this.content;
     }
 }
