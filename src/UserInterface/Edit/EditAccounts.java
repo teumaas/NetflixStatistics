@@ -1,19 +1,25 @@
 package UserInterface.Edit;
 
+import Utillities.DatabaseHandler;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class EditAccounts {
     private JPanel content;
 
     public EditAccounts(){
+
+        ArrayList<String> accounts = DatabaseHandler.getAccounts();
+
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
-        String[] selectAccountList = {"-Selecteer account-"};
+        String[] selectAccountList = {accounts.get(1), accounts.get(7)};
         JComboBox selectAccount = new JComboBox(selectAccountList);
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -24,7 +30,7 @@ public class EditAccounts {
         constraints.gridy = 1;
         this.content.add(currentName, constraints);
 
-        JTextArea nameValue = new JTextArea("--naam--");
+        JTextArea nameValue = new JTextArea(accounts.get(1));
         constraints.gridx = 1;
         constraints.gridy = 1;
         this.content.add(nameValue, constraints);
@@ -34,7 +40,7 @@ public class EditAccounts {
         constraints.gridy = 2;
         this.content.add(currentAdress, constraints);
 
-        JTextArea adressValue = new JTextArea("--adres--");
+        JTextArea adressValue = new JTextArea(accounts.get(2));
         constraints.gridx = 1;
         constraints.gridy = 2;
         this.content.add(adressValue, constraints);
@@ -44,7 +50,7 @@ public class EditAccounts {
         constraints.gridy = 3;
         this.content.add(currentHouseNumber, constraints);
 
-        JTextArea houseNumberValue = new JTextArea("--huisnummer--");
+        JTextArea houseNumberValue = new JTextArea(accounts.get(3));
         constraints.gridx = 1;
         constraints.gridy = 3;
         this.content.add(houseNumberValue, constraints);
@@ -54,7 +60,7 @@ public class EditAccounts {
         constraints.gridy = 4;
         this.content.add(currentPostalCode , constraints);
 
-        JTextArea postalCodeValue = new JTextArea("--postcode--");
+        JTextArea postalCodeValue = new JTextArea(accounts.get(4));
         constraints.gridx = 1;
         constraints.gridy = 4;
         this.content.add(postalCodeValue, constraints);
@@ -64,7 +70,7 @@ public class EditAccounts {
         constraints.gridy = 5;
         this.content.add(currentPlace, constraints);
 
-        JTextArea placeValue = new JTextArea("--woonplaats--");
+        JTextArea placeValue = new JTextArea(accounts.get(5));
         constraints.gridx = 1;
         constraints.gridy = 5;
         this.content.add(placeValue, constraints);
