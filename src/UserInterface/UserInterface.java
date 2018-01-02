@@ -29,6 +29,7 @@ public class UserInterface implements Runnable{
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         createComponents();
+        this.frame.add(createLandingPage());
 
         frame.pack();
         frame.setVisible(true);
