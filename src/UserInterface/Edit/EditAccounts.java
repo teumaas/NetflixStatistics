@@ -1,12 +1,13 @@
 package UserInterface.Edit;
 
+import UserInterface.UserInterface;
 import Utillities.DatabaseHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class EditAccounts {
+class EditAccounts {
     private JPanel content;
 
     public EditAccounts(){
@@ -81,7 +82,7 @@ public class EditAccounts {
         this.content.add(submit, constraints);
     }
 
-    public JPanel getEditAccounts(){
+    JPanel getEditAccounts(){
         return this.content;
     }
 }

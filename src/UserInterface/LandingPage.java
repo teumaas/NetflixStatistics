@@ -3,12 +3,10 @@ package UserInterface;
 import javax.swing.*;
 import java.awt.*;
 
-import static javax.swing.BoxLayout.Y_AXIS;
-
-public class LandingPage {
+class LandingPage {
     private JPanel content;
 
-    public LandingPage(){
+    LandingPage(){
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
@@ -30,9 +28,7 @@ public class LandingPage {
         this.content.add(subTitle, constraints);
     }
 
-    public JPanel getLandingPage(){
+    JPanel getLandingPage(){
         return this.content;
     }
-
-
 }

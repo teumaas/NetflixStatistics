@@ -1,14 +1,12 @@
 package UserInterface.Edit;
 
-import UserInterface.UserInterface;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class EditProfiles {
+class EditProfiles {
     private JPanel content;
 
-    public EditProfiles(){
+    EditProfiles(){
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
@@ -54,7 +52,7 @@ public class EditProfiles {
 
     }
 
-    public JPanel getEditProfiles(){
+    JPanel getEditProfiles(){
         return this.content;
     }
 }
