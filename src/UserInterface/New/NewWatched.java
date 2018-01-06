@@ -1,10 +1,16 @@
 package UserInterface.New;
 
+import Utillities.DatabaseHandler;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 class NewWatched {
     private JPanel content;
+
+    private Map<Integer, String> selectAccountList;
+    private JComboBox selectAccount;
 
     NewWatched(){
     this.content = new JPanel();
@@ -13,8 +19,8 @@ class NewWatched {
     GridBagConstraints constraints = new GridBagConstraints();
     this.content.setLayout(layout);
 
-    String[] selectAccountList = {"-Selecteer account-"};
-    JComboBox selectAccount = new JComboBox(selectAccountList);
+    selectAccountList = DatabaseHandler.getAccountName();
+    selectAccount = new JComboBox(selectAccountList.values().toArray());
     constraints.gridx = 0;
     constraints.gridy = 0;
     this.content.add(selectAccount, constraints);
@@ -45,6 +51,16 @@ class NewWatched {
     constraints.gridx = 0;
     constraints.gridy = 2;
     this.content.add(submit, constraints);
+    }
+
+    private void loadAccountInfo() {
+        for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {
+            if (entry.getValue().equals(selectAccount.getSelectedItem())) {
+                int abonneeID = entry.getKey();
+
+
+            }
+        }
     }
 
     JPanel getNewWatched(){

@@ -1,27 +1,37 @@
 package UserInterface.Edit;
 
-import UserInterface.UserInterface;
 import Utillities.DatabaseHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Map;
 
 class EditAccounts {
     private JPanel content;
+    private Map<Integer, String> selectAccountList;
+    private JComboBox selectAccount;
+    private JTextArea nameValue;
+    private JTextArea addressValue;
+    private JTextArea houseNumberValue;
+    private JTextArea postalCodeValue;
+    private JTextArea placeValue;
+    private ArrayList<String> accountInfo;
+    private String abonneeID;
 
     public EditAccounts(){
-
-        ArrayList<String> accounts = DatabaseHandler.getAccounts();
-
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
-        String[] selectAccountList = {accounts.get(1), accounts.get(7)};
-        JComboBox selectAccount = new JComboBox(selectAccountList);
+        selectAccountList = DatabaseHandler.getAccountName();
+        selectAccount = new JComboBox(selectAccountList.values().toArray());
+        accountInfo = new ArrayList<String>();
+
         constraints.gridx = 0;
         constraints.gridy = 0;
         this.content.add(selectAccount, constraints);
@@ -29,57 +39,100 @@ class EditAccounts {
         JLabel currentName = new JLabel("Huidige naam: ");
         constraints.gridx = 0;
         constraints.gridy = 1;
-        this.content.add(currentName, constraints);
-
-        JTextArea nameValue = new JTextArea(accounts.get(1));
-        constraints.gridx = 1;
-        constraints.gridy = 1;
-        this.content.add(nameValue, constraints);
+        content.add(currentName, constraints);
 
         JLabel currentAdress = new JLabel("Huidig adres: ");
         constraints.gridx = 0;
         constraints.gridy = 2;
-        this.content.add(currentAdress, constraints);
-
-        JTextArea adressValue = new JTextArea(accounts.get(2));
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        this.content.add(adressValue, constraints);
+        content.add(currentAdress, constraints);
 
         JLabel currentHouseNumber = new JLabel("Huidig huisnummer: ");
         constraints.gridx = 0;
         constraints.gridy = 3;
-        this.content.add(currentHouseNumber, constraints);
-
-        JTextArea houseNumberValue = new JTextArea(accounts.get(3));
-        constraints.gridx = 1;
-        constraints.gridy = 3;
-        this.content.add(houseNumberValue, constraints);
+        content.add(currentHouseNumber, constraints);
 
         JLabel currentPostalCode = new JLabel("Huidige postcode: ");
         constraints.gridx = 0;
         constraints.gridy = 4;
-        this.content.add(currentPostalCode , constraints);
-
-        JTextArea postalCodeValue = new JTextArea(accounts.get(4));
-        constraints.gridx = 1;
-        constraints.gridy = 4;
-        this.content.add(postalCodeValue, constraints);
+        content.add(currentPostalCode, constraints);
 
         JLabel currentPlace = new JLabel("Huidige woonplaats: ");
         constraints.gridx = 0;
         constraints.gridy = 5;
-        this.content.add(currentPlace, constraints);
+        content.add(currentPlace, constraints);
 
-        JTextArea placeValue = new JTextArea(accounts.get(5));
+        nameValue = new JTextArea();
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        content.add(nameValue, constraints);
+
+        addressValue = new JTextArea();
+        constraints.gridx = 1;
+        constraints.gridy = 2;
+        content.add(addressValue, constraints);
+
+        houseNumberValue = new JTextArea();
+        constraints.gridx = 1;
+        constraints.gridy = 3;
+        content.add(houseNumberValue, constraints);
+
+        postalCodeValue = new JTextArea();
+        constraints.gridx = 1;
+        constraints.gridy = 4;
+        content.add(postalCodeValue, constraints);
+
+        placeValue = new JTextArea();
         constraints.gridx = 1;
         constraints.gridy = 5;
-        this.content.add(placeValue, constraints);
+        content.add(placeValue, constraints);
 
         JButton submit = new JButton("Opslaan");
         constraints.gridx = 0;
         constraints.gridy = 6;
-        this.content.add(submit, constraints);
+        content.add(submit, constraints);
+
+        loadAccountInfo();
+
+        selectAccount.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                loadAccountInfo();
+            }
+        });
+
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                accountInfo.add(abonneeID);
+                accountInfo.add(nameValue.getText());
+                accountInfo.add(addressValue.getText());
+                accountInfo.add(houseNumberValue.getText());
+                accountInfo.add(postalCodeValue.getText());
+                accountInfo.add(placeValue.getText());
+
+                DatabaseHandler.updateAccountInfo(accountInfo);
+            }
+        });
+    }
+
+    private void loadAccountInfo() {
+        for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {
+            if (entry.getValue().equals(selectAccount.getSelectedItem())) {
+                abonneeID = entry.getKey().toString();
+
+                nameValue.setText(null);
+                nameValue.append(DatabaseHandler.getAccountInfo(entry.getKey()).get(0).toString());
+                addressValue.setText(null);
+                addressValue.append(DatabaseHandler.getAccountInfo(entry.getKey()).get(1).toString());
+                houseNumberValue.setText(null);
+                houseNumberValue.append(DatabaseHandler.getAccountInfo(entry.getKey()).get(2).toString());
+                postalCodeValue.setText(null);
+                postalCodeValue.append(DatabaseHandler.getAccountInfo(entry.getKey()).get(3).toString());
+                placeValue.setText(null);
+                placeValue.append(DatabaseHandler.getAccountInfo(entry.getKey()).get(4).toString());
+
+                content.revalidate();
+            }
+        }
     }
 
     JPanel getEditAccounts(){

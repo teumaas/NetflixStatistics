@@ -1,10 +1,18 @@
 package UserInterface.Delete;
 
+import Utillities.DatabaseHandler;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
 
 class DeleteAccounts {
     private JPanel content;
+    private Map<Integer, String> selectAccountList;
+    private JComboBox selectAccount;
+    private int abonneeID;
 
     DeleteAccounts(){
         this.content = new JPanel();
@@ -13,8 +21,9 @@ class DeleteAccounts {
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
-        String[] selectAccountList = {"-Selecteer account-"};
-        JComboBox selectAccount = new JComboBox(selectAccountList);
+        selectAccountList = DatabaseHandler.getAccountName();
+        selectAccount = new JComboBox(selectAccountList.values().toArray());
+
         constraints.gridx = 0;
         constraints.gridy = 0;
         this.content.add(selectAccount, constraints);
@@ -24,6 +33,21 @@ class DeleteAccounts {
         constraints.gridy = 1;
         this.content.add(submit, constraints);
 
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {
+                    if (entry.getValue().equals(selectAccount.getSelectedItem())) {
+                        abonneeID = entry.getKey();
+
+                        DatabaseHandler.delete("Abonnee", "AbonneeID", abonneeID);
+
+                        content.revalidate();
+                    }
+                }
+
+            }
+        });
     }
 
     JPanel getDeleteAccounts(){
