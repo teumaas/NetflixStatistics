@@ -26,6 +26,7 @@ class DeleteAccounts {
 
         constraints.gridx = 0;
         constraints.gridy = 0;
+        
         this.content.add(selectAccount, constraints);
 
         JButton submit = new JButton("Verwijder");

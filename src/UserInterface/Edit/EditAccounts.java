@@ -120,15 +120,15 @@ class EditAccounts {
                 abonneeID = entry.getKey().toString();
 
                 nameValue.setText(null);
-                nameValue.append(DatabaseHandler.getAccountInfo(entry.getKey()).get(0).toString());
+                nameValue.append(DatabaseHandler.getAccountInformation(entry.getKey()).get(0).toString());
                 addressValue.setText(null);
-                addressValue.append(DatabaseHandler.getAccountInfo(entry.getKey()).get(1).toString());
+                addressValue.append(DatabaseHandler.getAccountInformation(entry.getKey()).get(1).toString());
                 houseNumberValue.setText(null);
-                houseNumberValue.append(DatabaseHandler.getAccountInfo(entry.getKey()).get(2).toString());
+                houseNumberValue.append(DatabaseHandler.getAccountInformation(entry.getKey()).get(2).toString());
                 postalCodeValue.setText(null);
-                postalCodeValue.append(DatabaseHandler.getAccountInfo(entry.getKey()).get(3).toString());
+                postalCodeValue.append(DatabaseHandler.getAccountInformation(entry.getKey()).get(3).toString());
                 placeValue.setText(null);
-                placeValue.append(DatabaseHandler.getAccountInfo(entry.getKey()).get(4).toString());
+                placeValue.append(DatabaseHandler.getAccountInformation(entry.getKey()).get(4).toString());
 
                 content.revalidate();
             }

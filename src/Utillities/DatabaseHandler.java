@@ -14,7 +14,6 @@ public class DatabaseHandler {
     private static ResultSet resultSet = null;
     private static PreparedStatement preparedStatement = null;
 
-
     public DatabaseHandler(String databaseName, boolean integratedSecurity) {
         connectionURL = "jdbc:sqlserver://localhost\\SQLEXPRESS;databaseName=" + databaseName + ";integratedSecurity="+ integratedSecurity +";";
     }
@@ -26,6 +25,20 @@ public class DatabaseHandler {
 
             System.out.println("Successfully connected!");
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void delete (String table, String idName, int id) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + table + " WHERE " + idName + " = ?;");
+
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -58,7 +71,7 @@ public class DatabaseHandler {
         return accounts;
     }
 
-    public static ArrayList getAccountInfo(int ID) {
+    public static ArrayList getAccountInformation(int ID) {
         ArrayList<String> accountInfo = new ArrayList<String>();
 
         try {
@@ -73,36 +86,6 @@ public class DatabaseHandler {
                 accountInfo.add(resultSet.getString("Woonplaats"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return accountInfo;
-    }
-
-    public static ArrayList updateAccountInfo(ArrayList info) {
-        ArrayList<String> accountInfo = info;
-
-        String abonneeID = accountInfo.get(0);
-        String name = accountInfo.get(1);
-        String address = accountInfo.get(2);
-        String houseNumber = accountInfo.get(3);
-        String postalCode = accountInfo.get(4);
-        String city = accountInfo.get(5);
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Abonnee SET Naam = ?, Adres = ?, Huisnummer = ?, Postcode = ?, Woonplaats = ? WHERE AbonneeID = ?");
-
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, address);
-            preparedStatement.setString(3, houseNumber);
-            preparedStatement.setString(4, postalCode);
-            preparedStatement.setString(5, city);
-            preparedStatement.setString(6, abonneeID);
-
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-        }
-        catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -129,6 +112,36 @@ public class DatabaseHandler {
             preparedStatement.setString(5, postalCode);
             preparedStatement.setString(6, city);
 
+
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return accountInfo;
+    }
+
+    public static ArrayList updateAccountInfo(ArrayList info) {
+        ArrayList<String> accountInfo = info;
+
+        String abonneeID = accountInfo.get(0);
+        String name = accountInfo.get(1);
+        String address = accountInfo.get(2);
+        String houseNumber = accountInfo.get(3);
+        String postalCode = accountInfo.get(4);
+        String city = accountInfo.get(5);
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Abonnee SET Naam = ?, Adres = ?, Huisnummer = ?, Postcode = ?, Woonplaats = ? WHERE AbonneeID = ?");
+
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, address);
+            preparedStatement.setString(3, houseNumber);
+            preparedStatement.setString(4, postalCode);
+            preparedStatement.setString(5, city);
+            preparedStatement.setString(6, abonneeID);
 
             preparedStatement.executeUpdate();
             preparedStatement.close();
