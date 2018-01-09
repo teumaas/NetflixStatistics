@@ -153,4 +153,46 @@ public class DatabaseHandler {
             e.printStackTrace();
         }
     }
+
+    public static String longestMovieBelowSixteen (){
+        String returnValue = null;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT TOP 1 Titel\n" +
+                    "FROM Programma\n" +
+                    "JOIN Film\n" +
+                    "ON Programma.ProgrammaID = Film.ProgrammaID\n" +
+                    "WHERE LeeftijdsIndicatie < 16\n" +
+                    "ORDER BY Tijdsduur DESC;");
+
+                while (resultSet.next()){
+                    returnValue = resultSet.getString("Titel");
+                }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
+    public static String accountsWithOneProfile(){
+        String returnValue = null;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT COUNT(*) AS Resultaat FROM\n" +
+                    "\t(SELECT AbonneeID\n" +
+                    "\tFROM Profiel\n" +
+                    "\tGROUP BY AbonneeID\n" +
+                    "\tHAVING COUNT(AbonneeID) = 1) AS AbonneeID;");
+
+            while (resultSet.next()){
+                returnValue = resultSet.getString("Resultaat");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        System.out.println(returnValue);
+        return returnValue;
+    }
 }
