@@ -43,12 +43,25 @@ class DeleteAccounts {
 
                         DatabaseHandler.delete("Abonnee", "AbonneeID", abonneeID);
 
+                        loadAbonnees();
+
                         content.revalidate();
+                        content.repaint();
                     }
                 }
 
             }
         });
+    }
+
+    public Map loadAbonnees() {
+        for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {
+            if (entry.getValue().equals(selectAccount.getSelectedItem())) {
+                selectAccountList = DatabaseHandler.getAccountName();
+            }
+        }
+
+        return selectAccountList;
     }
 
     JPanel getDeleteAccounts(){

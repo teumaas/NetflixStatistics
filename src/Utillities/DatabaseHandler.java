@@ -71,6 +71,40 @@ public class DatabaseHandler {
         return accounts;
     }
 
+    public static Map getProfileName(int id) {
+        Map<Integer,String> profiles = new HashMap<Integer,String>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM Profiel WHERE AbonneeID = "+ id +";");
+
+            while (resultSet.next()) {
+                profiles.put(resultSet.getInt("ProfielID"), resultSet.getString("Naam"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return profiles;
+    }
+
+    public static Map getProgrammeName(int aid, int pid) {
+        Map<Integer,Integer> programmas = new HashMap<Integer,Integer>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM ProfielProgramma WHERE AbonneeID = "+ aid +"AND ProfielID = " + pid + ";");
+
+            while (resultSet.next()) {
+                programmas.put(resultSet.getInt("ProfielID"), resultSet.getInt("ProgrammaID"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return programmas;
+    }
+
     public static ArrayList getAccountInformation(int ID) {
         ArrayList<String> accountInfo = new ArrayList<String>();
 
@@ -151,20 +185,6 @@ public class DatabaseHandler {
         }
 
         return accountInfo;
-    }
-
-    public static void delete (String table, String idName, int id) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + table + " WHERE " + idName + " = ?;");
-
-            preparedStatement.setInt(1, id);
-
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public static String longestMovieBelowSixteen (){
