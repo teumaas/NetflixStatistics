@@ -13,6 +13,5 @@ public class Main {
 
         databaseHandler = new DatabaseHandler("NetflixStatistix", true);
         databaseHandler.connect();
-
     }
 }
