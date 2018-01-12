@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -43,7 +44,7 @@ class DeleteWatched {
 
         selectProgrammeList = new HashMap<Integer,String> ();
         selectProgrammeList.put(0, "-Selecteer programma-");
-        selectProgramme = new JComboBox(loadProgrammas().values().toArray());
+        selectProgramme = new JComboBox(loadProgrammas().toArray());
         constraints.gridx = 0;
         constraints.gridy = 2;
         this.content.add(selectProgramme, constraints);
@@ -79,17 +80,17 @@ class DeleteWatched {
         return selectProfileList;
     }
 
-    public Map loadProgrammas() {
-        int AccountID = 0;
+    public ArrayList loadProgrammas() {
+        ArrayList<String> ProgramInfo = new ArrayList<String>();
 
-        for (Map.Entry<Integer, String> entryTwo : selectProgrammeList.entrySet()) {
-            if (entryTwo.getValue().equals(selectProfile.getSelectedItem())) {
-                int ProfileID = entryTwo.getKey();
-
+        for (Map.Entry<Integer, String> entry : selectProfileList.entrySet()) {
+            if (entry.getValue().equals(selectProfile.getSelectedItem())) {
+                int ProfileID = entry.getKey();
+                ProgramInfo = DatabaseHandler.getProgrammeName(ProfileID);
             }
         }
 
-        return selectProgrammeList;
+        return ProgramInfo;
     }
 
     public void loadJComboBox(){
@@ -105,7 +106,7 @@ class DeleteWatched {
     }
 
     public void loadProfileJComboBox(){
-        Iterator list = loadProgrammas().values().iterator();
+        Iterator list = loadProgrammas().iterator();
         selectProgramme.removeAllItems();
 
         while (list.hasNext()) {

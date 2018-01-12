@@ -88,16 +88,18 @@ public class DatabaseHandler {
         return profiles;
     }
 
-    public static Map getProgrammeName(int aid, int pid) {
-        Map<Integer,Integer> programmas = new HashMap<Integer,Integer>();
+    public static ArrayList getProgrammeName(int pid) {
+        ArrayList<String> programmas = new ArrayList<String>();
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM ProfielProgramma WHERE AbonneeID = "+ aid +"AND ProfielID = " + pid + ";");
+            resultSet = statement.executeQuery("SELECT Programma.Titel, ProfielProgramma.ProfielID, ProfielProgramma.ProgrammaID FROM Programma JOIN ProfielProgramma ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID WHERE ProfielProgramma.ProfielID = " + pid + ";");
 
             while (resultSet.next()) {
-                programmas.put(resultSet.getInt("ProfielID"), resultSet.getInt("ProgrammaID"));
-            }
+                programmas.add(resultSet.getString("ProgrammaID"));
+                programmas.add(resultSet.getString("ProfielID"));
+                programmas.add(resultSet.getString("Titel"));
+        }
         } catch (SQLException e) {
             e.printStackTrace();
         }
