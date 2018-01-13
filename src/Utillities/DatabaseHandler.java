@@ -258,8 +258,10 @@ public class DatabaseHandler {
                     "FROM ProfielProgramma\n" +
                     "JOIN Programma\n" +
                     "ON ProfielProgramma.ProgrammaID = Programma.ProgrammaID\n" +
+                    "JOIN Profiel\n" +
+                    "ON ProfielProgramma.ProfielID = Profiel.ProfielID\n" +
                     "JOIN Abonnee\n" +
-                    "ON ProfielProgramma.AbonneeID = Abonnee.AbonneeID\n" +
+                    "ON Profiel.AbonneeID = Abonnee.AbonneeID\n" +
                     "WHERE Abonnee.Naam = '"+ sqlValue +"';");
 
             while (resultSet.next()){
