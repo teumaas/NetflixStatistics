@@ -1,38 +1,60 @@
 package UserInterface.New;
 
 import Utillities.DatabaseHandler;
+import Utillities.Item;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 class NewWatched {
     private JPanel content;
 
     private Map<Integer, String> selectAccountList;
-    private JComboBox selectAccount;
+    private Map<Integer, String> selectProfileList;
+    private Map<Integer, String> selectProgrammeList;
+    private JComboBox<Item<String>> selectAccount;;
+    private JComboBox<Item<String>> selectProfile;
+    private JComboBox selectProgramme;
+    private ArrayList<String> profileInfo;
+    private String profileID;
 
     NewWatched(){
     this.content = new JPanel();
     GridBagLayout layout = new GridBagLayout();
+    profileInfo = new ArrayList<String>();
 
     GridBagConstraints constraints = new GridBagConstraints();
     this.content.setLayout(layout);
 
-    selectAccountList = DatabaseHandler.getAccountName();
-    selectAccount = new JComboBox(selectAccountList.values().toArray());
+//    selectAccountList = DatabaseHandler.getAccountName();
+//    selectAccount = new JComboBox(selectAccountList.values().toArray());
+    selectAccountList = new HashMap<Integer,String>();
+    selectAccountList.put(0, "--Selecteer profiel--");
+    selectAccount = new JComboBox<Item<String>>();
+    loadAccounts().forEach((key, value) -> selectAccount.addItem( new Item<String>(key.toString(), value.toString() ) ));
+
     constraints.gridx = 0;
     constraints.gridy = 0;
     this.content.add(selectAccount, constraints);
 
-    String[] selectProfileList = {"-Selecteer profiel-"};
-    JComboBox selectProfile = new JComboBox(selectProfileList);
+    selectProfileList = new HashMap<Integer,String>();
+    selectProfileList.put(0, "--Selecteer profiel--");
+    selectProfile = new JComboBox<Item<String>>();
+    loadProfiles().forEach((key, value) -> selectProfile.addItem( new Item<String>(key.toString(), value.toString() ) ));
+
     constraints.gridx = 1;
     constraints.gridy = 0;
     this.content.add(selectProfile, constraints);
 
-    String[] selectProgrammeList = {"-Selecteer programma-"};
-    JComboBox selectProgramme = new JComboBox(selectProgrammeList);
+    selectProgrammeList = new HashMap<Integer, String> ();
+    selectProgrammeList.put(0, "--Selecteer programma--");
+    selectProgramme = new JComboBox(loadPrograms().values().toArray());
     constraints.gridx = 2;
     constraints.gridy = 0;
     this.content.add(selectProgramme, constraints);
@@ -51,16 +73,89 @@ class NewWatched {
     constraints.gridx = 0;
     constraints.gridy = 2;
     this.content.add(submit, constraints);
+
+    selectAccount.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            loadProfilesJComboBox();
+        }
+    });
+
+    selectProfile.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            loadProgramsJComboBox();
+        }
+    });
+
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Item item = (Item)selectProfile.getSelectedItem();
+                String code = (String)item.getValue();
+
+                profileInfo.add(code);
+                profileInfo.add(nameValue.getText());
+
+                DatabaseHandler.updatePercentage(profileInfo);
+
+                profileInfo.clear();
+
+                nameValue.setText("            ");
+            }
+        });
     }
 
-    private void loadAccountInfo() {
-        for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {
-            if (entry.getValue().equals(selectAccount.getSelectedItem())) {
-                int abonneeID = entry.getKey();
+    private void loadProfilesJComboBox(){
+        selectProfile.removeAllItems();
 
+        loadProfiles().forEach((key, value) -> selectProfile.addItem( new Item<String>(key.toString(), value.toString() ) ));
 
-            }
+        content.revalidate();
+        content.repaint();
+    }
+
+    private void loadProgramsJComboBox(){
+        Iterator programs = loadPrograms().values().iterator();
+        selectProgramme.removeAllItems();
+
+        while (programs.hasNext()) {
+            selectProgramme.addItem(programs.next());
         }
+
+        content.revalidate();
+        content.repaint();
+    }
+
+    private Map loadAccounts() {
+        selectAccountList.clear();
+
+        selectAccountList = DatabaseHandler.getAccountName();
+
+        return selectAccountList;
+    }
+
+    private Map loadProfiles() {
+        selectProfileList.clear();
+
+        Item item = (Item)selectAccount.getSelectedItem();
+        String code = (String)item.getValue();
+
+        selectProfileList = DatabaseHandler.getProfileName(Integer.parseInt(code));
+
+        return selectProfileList;
+    }
+
+    private Map loadPrograms() {
+        selectProgrammeList.clear();
+
+        Item item = (Item)selectProfile.getSelectedItem();
+        String code = (String)item.getValue();
+
+        selectProgrammeList = DatabaseHandler.getProgrammeName(Integer.parseInt(code));
+        System.out.println(selectProgrammeList);
+        return selectProgrammeList;
     }
 
     JPanel getNewWatched(){

@@ -229,6 +229,28 @@ public class DatabaseHandler {
         return accountInfo;
     }
 
+    public static ArrayList updatePercentage(ArrayList info) {
+        ArrayList<String> profielInfo = info;
+
+        String profielID = profielInfo.get(0);
+        String percentage = profielInfo.get(1);
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE ProfielProgramma SET ProfielPercentage = ? WHERE ProfielID = ?;");
+
+            preparedStatement.setString(1, percentage);
+            preparedStatement.setInt(2, Integer.parseInt(profielID));
+
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return profielInfo;
+    }
+
     public static ArrayList setProfileInfo(ArrayList info) throws ParseException {
         ArrayList<String> profileInfo = info;
 
