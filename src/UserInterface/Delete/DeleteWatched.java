@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,8 +26,9 @@ class DeleteWatched {
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
-        selectAccountList = DatabaseHandler.getAccountName();
-        selectAccount = new JComboBox(selectAccountList.values().toArray());
+        selectAccountList = new HashMap<Integer,String> ();
+        selectAccountList.put(0, "--Selecteer account--");
+        selectAccount = new JComboBox(loadAccounts().values().toArray());
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -42,9 +42,9 @@ class DeleteWatched {
         constraints.gridy = 1;
         this.content.add(selectProfile, constraints);
 
-        selectProgrammeList = new HashMap<Integer,String> ();
-        selectProgrammeList.put(0, "-Selecteer programma-");
-        selectProgramme = new JComboBox(loadProgrammas().toArray());
+        selectProgrammeList = new HashMap<Integer, String> ();
+        selectProgrammeList.put(0, "--Selecteer programma--");
+        selectProgramme = new JComboBox(loadPrograms().values().toArray());
         constraints.gridx = 0;
         constraints.gridy = 2;
         this.content.add(selectProgramme, constraints);
@@ -67,9 +67,41 @@ class DeleteWatched {
                 loadProfileJComboBox();
             }
         });
+
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Map.Entry<Integer, String> entry : selectProgrammeList.entrySet()) {
+                    if (entry.getValue().equals(selectProgramme.getSelectedItem())) {
+                        int ProgramID = entry.getKey();
+                        DatabaseHandler.delete("ProfielProgramma", "ProfielID", GetProfileID(), "ProgrammaID", ProgramID);
+                        loadJComboBox();
+                    }
+                }
+            }
+        });
     }
 
-    public Map loadProfiles() {
+    public Map loadAccounts() {
+        selectAccountList = DatabaseHandler.getAccountName();
+
+        return selectAccountList;
+    }
+
+    public int GetProfileID() {
+        int ProfileID = 0;
+
+        for (Map.Entry<Integer, String> entry : selectProfileList.entrySet()) {
+            if (entry.getValue().equals(selectProfile.getSelectedItem())) {
+             ProfileID = entry.getKey();
+            }
+        }
+
+        return ProfileID;
+    }
+
+
+    private Map loadProfiles() {
         for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {
             if (entry.getValue().equals(selectAccount.getSelectedItem())) {
                 int AccountID = entry.getKey();
@@ -80,20 +112,18 @@ class DeleteWatched {
         return selectProfileList;
     }
 
-    public ArrayList loadProgrammas() {
-        ArrayList<String> ProgramInfo = new ArrayList<String>();
-
+    private Map loadPrograms() {
         for (Map.Entry<Integer, String> entry : selectProfileList.entrySet()) {
             if (entry.getValue().equals(selectProfile.getSelectedItem())) {
                 int ProfileID = entry.getKey();
-                ProgramInfo = DatabaseHandler.getProgrammeName(ProfileID);
+                selectProgrammeList = DatabaseHandler.getProgrammeName(ProfileID);
             }
         }
 
-        return ProgramInfo;
+        return selectProgrammeList;
     }
 
-    public void loadJComboBox(){
+    private void loadJComboBox(){
         Iterator list = loadProfiles().values().iterator();
         selectProfile.removeAllItems();
 
@@ -105,12 +135,12 @@ class DeleteWatched {
         content.repaint();
     }
 
-    public void loadProfileJComboBox(){
-        Iterator list = loadProgrammas().iterator();
+    private void loadProfileJComboBox(){
+        Iterator profiles = loadPrograms().values().iterator();
         selectProgramme.removeAllItems();
 
-        while (list.hasNext()) {
-            selectProgramme.addItem(list.next());
+        while (profiles.hasNext()) {
+            selectProgramme.addItem(profiles.next());
         }
 
         content.revalidate();

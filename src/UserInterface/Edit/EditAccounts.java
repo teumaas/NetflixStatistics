@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 class EditAccounts {
@@ -28,8 +30,9 @@ class EditAccounts {
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
-        selectAccountList = DatabaseHandler.getAccountName();
-        selectAccount = new JComboBox(selectAccountList.values().toArray());
+        selectAccountList = new HashMap<Integer,String> ();
+        selectAccountList.put(0, "--Selecteer account--");
+        selectAccount = new JComboBox(loadAccounts().values().toArray());
         accountInfo = new ArrayList<String>();
 
         constraints.gridx = 0;
@@ -110,6 +113,10 @@ class EditAccounts {
                 accountInfo.add(placeValue.getText());
 
                 DatabaseHandler.updateAccountInfo(accountInfo);
+
+                accountInfo.clear();
+                loadAccountInfo();
+                loadJComboBox();
             }
         });
     }
@@ -129,10 +136,29 @@ class EditAccounts {
                 postalCodeValue.append(DatabaseHandler.getAccountInformation(entry.getKey()).get(3).toString());
                 placeValue.setText(null);
                 placeValue.append(DatabaseHandler.getAccountInformation(entry.getKey()).get(4).toString());
-
-                content.revalidate();
             }
         }
+    }
+
+    public Map loadAccounts() {
+        selectAccountList = DatabaseHandler.getAccountName();
+
+        return selectAccountList;
+    }
+
+
+    public void loadJComboBox(){
+        Iterator list = loadAccounts().values().iterator();
+        int currentIndex = selectAccount.getSelectedIndex();
+        selectAccount.removeAllItems();
+
+        while (list.hasNext()) {
+            selectAccount.addItem(list.next());
+        }
+
+        content.revalidate();
+        content.repaint();
+        selectAccount.setSelectedIndex(currentIndex);
     }
 
     JPanel getEditAccounts(){
