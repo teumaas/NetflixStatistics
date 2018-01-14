@@ -363,14 +363,17 @@ public class DatabaseHandler {
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT AVG(ProfielPercentage) AS AveragePercentage\n" +
+            resultSet = statement.executeQuery("SELECT AVG(ProfielPercentage) AS AveragePercentage, Aflevering.Volgnummer\n" +
                     "FROM ProfielProgramma\n" +
                     "JOIN Programma\n" +
                     "ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID\n" +
-                    "WHERE Programma.Titel = '"+ sqlValue +"';");
+                    "JOIN Aflevering\n" +
+                    "ON Programma.Titel = Aflevering.AfleveringTitel\n" +
+                    "GROUP BY Aflevering.Volgnummer, Programma.Titel\n" +
+                    "HAVING Programma.Titel = '"+ sqlValue +"';");
 
             while (resultSet.next()){
-                returnValue = resultSet.getString("AveragePercentage");
+                returnValue = resultSet.getString("AveragePercentage") + " (Volgnummer: " + resultSet.getString("Volgnummer") + ")";
             }
         } catch (SQLException e){
             e.printStackTrace();

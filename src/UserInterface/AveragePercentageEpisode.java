@@ -11,7 +11,7 @@ import java.util.ArrayList;
 class AveragePercentageEpisode {
     private JPanel content;
     private GridBagConstraints constraints = new GridBagConstraints();
-    private String selected;
+    public String selected;
     private String selectedEpisode;
 
 
@@ -54,7 +54,7 @@ class AveragePercentageEpisode {
         this.selected = selectedValue;
     }
 
-    private void addEpisodeSelector(String sqlValue){
+    public void addEpisodeSelector(String sqlValue){
         this.selected = sqlValue;
         ArrayList<String> selectEpisodeList = DatabaseHandler.getEpisodes(this.selected);
         JComboBox episodeSelecter = new JComboBox(selectEpisodeList.toArray());
