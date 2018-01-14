@@ -356,7 +356,159 @@ public class DatabaseHandler {
         } catch (SQLException e){
             e.printStackTrace();
         }
-        System.out.println(returnValue);
         return returnValue;
+    }
+
+    public static HashMap getMovies(){
+        HashMap<String, Integer> returnValue = new HashMap<String, Integer>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT Titel, Programma.ProgrammaID\n" +
+                    "FROM Programma\n" +
+                    "JOIN Film\n" +
+                    "ON Film.ProgrammaID = Programma.ProgrammaID;");
+
+            while (resultSet.next()){
+                returnValue.put(resultSet.getString("Titel"), resultSet.getInt("ProgrammaID"));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
+    public static ArrayList getMoviesWatchedPerAccount(String sqlValue){
+        ArrayList<String > returnValue = new ArrayList<String>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT DISTINCT Programma.Titel\n" +
+                    "FROM ProfielProgramma\n" +
+                    "JOIN Programma\n" +
+                    "ON ProfielProgramma.ProgrammaID = Programma.ProgrammaID\n" +
+                    "JOIN Profiel\n" +
+                    "ON ProfielProgramma.ProfielID = Profiel.ProfielID\n" +
+                    "JOIN Abonnee\n" +
+                    "ON Profiel.AbonneeID = Abonnee.AbonneeID\n" +
+                    "WHERE Abonnee.Naam = '"+ sqlValue +"';");
+
+            while (resultSet.next()){
+                returnValue.add(resultSet.getString("Titel"));
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return returnValue;
+    }
+
+    public static String getPercentageAccounts(String sqlValue){
+        String returnValue = null;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT AVG(ProfielPercentage) AS AveragePercentage\n" +
+                    "FROM ProfielProgramma\n" +
+                    "JOIN Abonnee\n" +
+                    "ON ProfielProgramma.AbonneeID = Abonnee.AbonneeID\n" +
+                    "WHERE Naam = '"+ sqlValue +"';");
+
+            while (resultSet.next()){
+                returnValue = resultSet.getString("AveragePercentage");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return returnValue;
+    }
+
+    public static ArrayList getSeries(){
+        ArrayList<String> returnValue = new ArrayList<String>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT SerieTitel\n" +
+                    "FROM Serie;");
+
+            while (resultSet.next()){
+                returnValue.add(resultSet.getString("SerieTitel"));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return returnValue;
+    }
+
+    public static ArrayList getEpisodes(String sqlValue){
+        ArrayList<String> returnValue = new ArrayList<String>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT Titel\n" +
+                    "FROM Programma\n" +
+                    "JOIN Aflevering\n" +
+                    "ON Programma.ProgrammaID = Aflevering.AfleveringID\n" +
+                    "JOIN Serie\n" +
+                    "ON Aflevering.SerieID = Serie.SerieID\n" +
+                    "WHERE SerieTitel = '"+ sqlValue +"';");
+
+            while (resultSet.next()){
+                returnValue.add(resultSet.getString("Titel"));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return returnValue;
+    }
+
+    public static String getMoviesFullyWatched(String sqlValue){
+        String returnValue = null;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT COUNT(ProfielPercentage) AS TimesWatched\n" +
+                    "FROM ProfielProgramma\n" +
+                    "JOIN Programma\n" +
+                    "ON ProfielProgramma.ProgrammaID = Programma.ProgrammaID\n" +
+                    "WHERE ProfielPercentage = '100' AND Programma.Titel = '"+ sqlValue +"';");
+
+            while (resultSet.next()){
+                returnValue = resultSet.getString("TimesWatched");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return returnValue;
+    }
+
+    public static String getAveragePercentageEpisode(String sqlValue){
+        String returnValue = null;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT AVG(ProfielPercentage) AS AveragePercentage\n" +
+                    "FROM ProfielProgramma\n" +
+                    "JOIN Programma\n" +
+                    "ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID\n" +
+                    "WHERE Programma.Titel = '"+ sqlValue +"';");
+
+            while (resultSet.next()){
+                returnValue = resultSet.getString("AveragePercentage");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        if (returnValue == null){
+            return "-";
+        } else {
+            return returnValue;
+        }
     }
 }
