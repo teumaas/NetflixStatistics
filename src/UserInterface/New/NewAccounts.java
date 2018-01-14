@@ -33,10 +33,11 @@ class NewAccounts {
         constraints.gridy = 0;
         this.content.add(id, constraints);
 
-        idValue = new JTextArea("            ");
+        idValue = new JTextArea(DatabaseHandler.getHighestID());
         constraints.gridx = 1;
         constraints.gridy = 0;
         this.content.add(idValue, constraints);
+        idValue.setEditable(false);
 
         JLabel name = new JLabel("Naam: ");
         constraints.gridx = 0;
@@ -104,6 +105,15 @@ class NewAccounts {
                 accountInfo.add(placeValue.getText());
 
                 DatabaseHandler.setAccountInfo(accountInfo);
+
+                accountInfo.clear();
+
+                idValue.setText(DatabaseHandler.getHighestID());
+                nameValue.setText("            ");
+                addressValue.setText("            ");
+                houseNumberValue.setText("            ");
+                postalCodeValue.setText("            ");
+                placeValue.setText("            ");
             }
         });
 

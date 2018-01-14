@@ -1,7 +1,10 @@
 package Utillities;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +46,21 @@ public class DatabaseHandler {
         }
     }
 
+    public static void delete (String table, String idName, int id, String idNameTwo, int idTwo) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + table + " WHERE " + idName + " = ? AND " + idNameTwo + " = ?;");
+
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, idTwo);
+
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void disconnect() {
         if (resultSet != null) try { resultSet.close(); } catch(Exception e) {}
         if (statement != null) try { statement.close(); } catch(Exception e) {}
@@ -52,6 +70,25 @@ public class DatabaseHandler {
     public static void testConnection()
     {
         connect();
+    }
+
+    public static String getHighestID() {
+        int ID = 0;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT AbonneeID FROM Abonnee WHERE AbonneeID = (SELECT max(AbonneeID) FROM Abonnee)");
+
+            while (resultSet.next()) {
+               ID = resultSet.getInt("AbonneeID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        ID += 1;
+
+        return Integer.toString(ID);
     }
 
     public static Map getAccountName() {
@@ -88,18 +125,16 @@ public class DatabaseHandler {
         return profiles;
     }
 
-    public static ArrayList getProgrammeName(int pid) {
-        ArrayList<String> programmas = new ArrayList<String>();
+    public static Map getProgrammeName(int pid) {
+        Map<Integer, String> programmas = new HashMap<Integer, String>();
 
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT Programma.Titel, ProfielProgramma.ProfielID, ProfielProgramma.ProgrammaID FROM Programma JOIN ProfielProgramma ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID WHERE ProfielProgramma.ProfielID = " + pid + ";");
 
             while (resultSet.next()) {
-                programmas.add(resultSet.getString("ProgrammaID"));
-                programmas.add(resultSet.getString("ProfielID"));
-                programmas.add(resultSet.getString("Titel"));
-        }
+                programmas.put(resultSet.getInt("ProgrammaID"), resultSet.getString("Titel"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -128,6 +163,41 @@ public class DatabaseHandler {
         return accountInfo;
     }
 
+    public static ArrayList getProfileInformation(int ID) {
+        ArrayList<String> profielInfo = new ArrayList<String>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM Profiel WHERE ProfielID = " + ID +";");
+
+            while (resultSet.next()) {
+                profielInfo.add(resultSet.getString("Naam"));
+                profielInfo.add(resultSet.getString("Geboortedatum"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return profielInfo;
+    }
+
+    public static Map getProgrammeParentage(int pid) {
+        Map<Integer, String> programmas = new HashMap<Integer, String>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT Programma.Titel, ProfielProgramma.ProfielID, ProfielProgramma.ProgrammaID, ProfielProgramma.ProfielPercentage FROM Programma JOIN ProfielProgramma ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID WHERE ProfielProgramma.ProfielID = " + pid + ";");
+
+            while (resultSet.next()) {
+                programmas.put(resultSet.getInt("ProgrammaID"), resultSet.getString("ProfielPercentage"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return programmas;
+    }
+
     public static ArrayList setAccountInfo(ArrayList info) {
         ArrayList<String> accountInfo = info;
 
@@ -148,6 +218,65 @@ public class DatabaseHandler {
             preparedStatement.setString(5, postalCode);
             preparedStatement.setString(6, city);
 
+
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return accountInfo;
+    }
+
+    public static ArrayList setProfileInfo(ArrayList info) throws ParseException {
+        ArrayList<String> profileInfo = info;
+
+        String AbonneeID = profileInfo.get(0);
+        String name = profileInfo.get(1);
+        String dateOfBirth = profileInfo.get(2);
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Profiel (AbonneeID, Naam, Geboortedatum) VALUES (?, ?, ?)");
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsed = format.parse(dateOfBirth);
+            java.sql.Date cd = new java.sql.Date(parsed.getTime());
+
+            preparedStatement.setString(1, AbonneeID);
+            preparedStatement.setString(2, name);
+            preparedStatement.setDate(3, cd);
+
+
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return profileInfo;
+    }
+
+
+
+    public static ArrayList updateProfileInfo(ArrayList info) throws ParseException {
+        ArrayList<String> accountInfo = info;
+
+        String profileID = accountInfo.get(0);
+        String name = accountInfo.get(1);
+        String dateOfBirth = accountInfo.get(2);
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Profiel SET Naam = ?, Geboortedatum = ? WHERE ProfielID = ?");
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsed = format.parse(dateOfBirth);
+            java.sql.Date cd = new java.sql.Date(parsed.getTime());
+
+            preparedStatement.setString(1, name);
+            preparedStatement.setDate(2, cd);
+            preparedStatement.setString(3, profileID);
 
             preparedStatement.executeUpdate();
             preparedStatement.close();

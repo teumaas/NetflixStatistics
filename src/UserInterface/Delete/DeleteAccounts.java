@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 import java.util.Map;
 
 class DeleteAccounts {
@@ -43,10 +44,7 @@ class DeleteAccounts {
 
                         DatabaseHandler.delete("Abonnee", "AbonneeID", abonneeID);
 
-                        loadAbonnees();
-
-                        content.revalidate();
-                        content.repaint();
+                        loadJComboBox();
                     }
                 }
 
@@ -62,6 +60,18 @@ class DeleteAccounts {
         }
 
         return selectAccountList;
+    }
+
+    public void loadJComboBox(){
+        Iterator list = loadAbonnees().values().iterator();
+        selectAccount.removeAllItems();
+
+        while (list.hasNext()) {
+            selectAccount.addItem(list.next());
+        }
+
+        content.revalidate();
+        content.repaint();
     }
 
     JPanel getDeleteAccounts(){
