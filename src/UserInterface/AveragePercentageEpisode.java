@@ -31,7 +31,8 @@ class AveragePercentageEpisode {
 
         //Stelt de tweede JComboBox in
         String[] defaultValues = {"-Selecteer-"};
-        selectEpisode = new JComboBox(defaultValues);
+        DefaultComboBoxModel model = new DefaultComboBoxModel(defaultValues);
+        selectEpisode = new JComboBox(model);
         constraints.gridx = 0;
         constraints.gridy = 1;
         this.content.add(selectEpisode, constraints);
@@ -58,7 +59,6 @@ class AveragePercentageEpisode {
             public void actionPerformed(ActionEvent actionEvent) {
                 ItemSelectable is = (ItemSelectable)actionEvent.getSource();
                 selectedEpisode(is);
-                System.out.println("Triggered");
             }
         };
 
@@ -73,35 +73,11 @@ class AveragePercentageEpisode {
         String selectedValue = ((String)selected[0]);
         ArrayList<String> values = DatabaseHandler.getEpisodes(selectedValue);
 
-        //Verwijdert de oude JComboBox en maakt een nieuwe
-        this.content.remove(selectEpisode);
-        selectEpisode = new JComboBox();
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        this.content.add(selectEpisode, constraints);
-
-        //Maakt een nieuwe actionlistener aan voor de nieuwe JComboBox
-        ActionListener actionListenerEpisode = new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                ItemSelectable is = (ItemSelectable)actionEvent.getSource();
-                selectedEpisode(is);
-            }
-        };
-
-        //Voegt de nieuwe actionlistener toe aan de nieuwe JComboBox
-        selectEpisode.addActionListener(actionListenerEpisode);
-
-        //Voegt alle items toe aan de nieuwe JComboBox
-        int i = 0;
-        this.selectEpisode.removeAll();
-        while (i < values.size()) {
-            selectEpisode.addItem(values.get(i));
-            i++;
-        }
-
-        //Herlaadt de content van deze pagina
-        this.content.repaint();
-        this.content.revalidate();
+        //Stelt de JComboBox in met de juiste waardes
+        DefaultComboBoxModel model = new DefaultComboBoxModel(values.toArray());
+        this.selectEpisode.setModel(model);
+        this.selectEpisode.repaint();
+        this.selectEpisode.revalidate();
     }
 
     //Handelt de tweede actionlistener af
@@ -111,7 +87,7 @@ class AveragePercentageEpisode {
         String selectedValue = ((String)selected[0]);
 
         //Stelt de tekst van het JLabel in op de juiste waarde
-        averagePercentage.setText("Gemiddeld percentage bekeken: " + DatabaseHandler.getAveragePercentageEpisode(selectedValue));
+        this.averagePercentage.setText("Gemiddeld percentage bekeken: " + DatabaseHandler.getAveragePercentageEpisode(selectedValue) + "% (" + DatabaseHandler.getVolgnummer(selectedValue) + ")");
 
         //Herlaadt de pagina
         this.content.repaint();

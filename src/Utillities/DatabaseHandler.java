@@ -513,10 +513,9 @@ public class DatabaseHandler {
 
     public static String getAveragePercentageEpisode(String sqlValue){
         String returnValue = null;
-
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT AVG(ProfielPercentage) AS AveragePercentage, Aflevering.Volgnummer\n" +
+            resultSet = statement.executeQuery("SELECT AVG(ProfielPercentage) AS AveragePercentage\n" +
                     "FROM ProfielProgramma\n" +
                     "JOIN Programma\n" +
                     "ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID\n" +
@@ -526,17 +525,38 @@ public class DatabaseHandler {
                     "HAVING Programma.Titel = '"+ sqlValue +"';");
 
             while (resultSet.next()){
-                returnValue = resultSet.getString("AveragePercentage") + " (Volgnummer: " + resultSet.getString("Volgnummer") + ")";
+                returnValue = resultSet.getString("AveragePercentage");
             }
         } catch (SQLException e){
             e.printStackTrace();
         }
 
-        if (returnValue == null){
-            return "-";
+        if (returnValue == null) {
+            return "0";
         } else {
             return returnValue;
         }
+    }
+
+    public static String getVolgnummer(String sqlValue){
+        String returnValue = null;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT Aflevering.Volgnummer\n" +
+                    "FROM Aflevering\n" +
+                    "JOIN Programma\n" +
+                    "ON Programma.Titel = Aflevering.AfleveringTitel\n" +
+                    "GROUP BY Aflevering.Volgnummer, Programma.Titel\n" +
+                    "HAVING Programma.Titel = '"+ sqlValue +"';");
+            while (resultSet.next()){
+                returnValue = resultSet.getString("Volgnummer");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return returnValue;
     }
 
     public static ArrayList getProfiles(String sqlValue){
