@@ -125,12 +125,29 @@ public class DatabaseHandler {
         return profiles;
     }
 
-    public static Map getProgrammeName(int pid) {
+    public static Map getProgrammeName() {
         Map<Integer, String> programmas = new HashMap<Integer, String>();
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT Programma.Titel, ProfielProgramma.ProfielID, ProfielProgramma.ProgrammaID FROM Programma JOIN ProfielProgramma ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID WHERE ProfielProgramma.ProfielID = " + pid + ";");
+            resultSet = statement.executeQuery("SELECT Programma.Titel, ProfielProgramma.ProgrammaID FROM Programma JOIN ProfielProgramma ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID;");
+
+            while (resultSet.next()) {
+                programmas.put(resultSet.getInt("ProgrammaID"), resultSet.getString("Titel"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return programmas;
+    }
+
+    public static Map getProgrammeNameIfPercentageExists(String pid) {
+        Map<Integer, String> programmas = new HashMap<Integer, String>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT Programma.Titel, ProfielProgramma.ProgrammaID, ProfielID FROM Programma JOIN ProfielProgramma ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID WHERE ProfielID = " + pid + ";");
 
             while (resultSet.next()) {
                 programmas.put(resultSet.getInt("ProgrammaID"), resultSet.getString("Titel"));
@@ -181,21 +198,21 @@ public class DatabaseHandler {
         return profielInfo;
     }
 
-    public static Map getProgrammeParentage(int pid) {
-        Map<Integer, String> programmas = new HashMap<Integer, String>();
+    public static Map getProgrammeParentage(String pid, String proid) {
+        Map<Integer, String> programs = new HashMap<Integer, String>();
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT Programma.Titel, ProfielProgramma.ProfielID, ProfielProgramma.ProgrammaID, ProfielProgramma.ProfielPercentage FROM Programma JOIN ProfielProgramma ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID WHERE ProfielProgramma.ProfielID = " + pid + ";");
+            resultSet = statement.executeQuery("SELECT ProfielPercentage, ProfielProgramma.ProfielID FROM ProfielProgramma JOIN Profiel On ProfielProgramma.ProfielID = Profiel.ProfielID JOIN Abonnee ON Profiel.AbonneeID = Abonnee.AbonneeID WHERE Profiel.ProfielID = '" + pid + "' AND ProfielProgramma.ProgrammaID = '"+ proid + "';");
 
             while (resultSet.next()) {
-                programmas.put(resultSet.getInt("ProgrammaID"), resultSet.getString("ProfielPercentage"));
+                programs.put(resultSet.getInt("ProfielID"), resultSet.getString("ProfielPercentage"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return programmas;
+        return programs;
     }
 
     public static ArrayList setAccountInfo(ArrayList info) {
@@ -251,6 +268,30 @@ public class DatabaseHandler {
         return profielInfo;
     }
 
+    public static ArrayList setPercentage(ArrayList info) {
+        ArrayList<String> profielInfo = info;
+
+        String percentage = profielInfo.get(0);
+        String programID = profielInfo.get(1);
+        String profileID = profielInfo.get(2);
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO ProfielProgramma (ProfielPercentage, ProgrammaID, ProfielID) VALUES (?, ?, ?);");
+
+            preparedStatement.setString(1, percentage);
+            preparedStatement.setString(2, programID);
+            preparedStatement.setInt(3, Integer.parseInt(profileID));
+
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return profielInfo;
+    }
+
     public static ArrayList setProfileInfo(ArrayList info) throws ParseException {
         ArrayList<String> profileInfo = info;
 
@@ -259,7 +300,7 @@ public class DatabaseHandler {
         String dateOfBirth = profileInfo.get(2);
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Profiel (AbonneeID, Naam, Geboortedatum) VALUES (?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Profiel (AbonneeID, Naam, Geboortedatum) VALUES (?, ?, ?);");
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date parsed = format.parse(dateOfBirth);

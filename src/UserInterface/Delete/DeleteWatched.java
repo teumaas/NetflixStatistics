@@ -116,7 +116,7 @@ class DeleteWatched {
         for (Map.Entry<Integer, String> entry : selectProfileList.entrySet()) {
             if (entry.getValue().equals(selectProfile.getSelectedItem())) {
                 int ProfileID = entry.getKey();
-                selectProgrammeList = DatabaseHandler.getProgrammeName(ProfileID);
+                selectProgrammeList = DatabaseHandler.getProgrammeName();
             }
         }
 
