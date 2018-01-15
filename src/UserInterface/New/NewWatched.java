@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 class NewWatched {
@@ -20,7 +19,7 @@ class NewWatched {
     private Map<Integer, String> selectProgrammeList;
     private JComboBox<Item<String>> selectAccount;;
     private JComboBox<Item<String>> selectProfile;
-    private JComboBox selectProgramme;
+    private JComboBox<Item<String>> selectProgramme;
     private ArrayList<String> profileInfo;
     private String profileID;
 
@@ -32,8 +31,6 @@ class NewWatched {
     GridBagConstraints constraints = new GridBagConstraints();
     this.content.setLayout(layout);
 
-//    selectAccountList = DatabaseHandler.getAccountName();
-//    selectAccount = new JComboBox(selectAccountList.values().toArray());
     selectAccountList = new HashMap<Integer,String>();
     selectAccountList.put(0, "--Selecteer profiel--");
     selectAccount = new JComboBox<Item<String>>();
@@ -54,7 +51,9 @@ class NewWatched {
 
     selectProgrammeList = new HashMap<Integer, String> ();
     selectProgrammeList.put(0, "--Selecteer programma--");
-    selectProgramme = new JComboBox(loadPrograms().values().toArray());
+    selectProgramme = new JComboBox<Item<String>>();
+    loadPrograms().forEach((key, value) -> selectProgramme.addItem( new Item<String>(key.toString(), value.toString() ) ));
+
     constraints.gridx = 2;
     constraints.gridy = 0;
     this.content.add(selectProgramme, constraints);
@@ -88,23 +87,23 @@ class NewWatched {
         }
     });
 
-        submit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+    submit.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
 
-                Item item = (Item)selectProfile.getSelectedItem();
-                String code = (String)item.getValue();
+            Item item = (Item)selectProfile.getSelectedItem();
+            String code = (String)item.getValue();
 
-                profileInfo.add(code);
-                profileInfo.add(nameValue.getText());
+            profileInfo.add(code);
+            profileInfo.add(nameValue.getText());
 
-                DatabaseHandler.updatePercentage(profileInfo);
+            DatabaseHandler.updatePercentage(profileInfo);
 
-                profileInfo.clear();
+            profileInfo.clear();
 
-                nameValue.setText("            ");
-            }
-        });
+            nameValue.setText("            ");
+        }
+    });
     }
 
     private void loadProfilesJComboBox(){
@@ -117,12 +116,9 @@ class NewWatched {
     }
 
     private void loadProgramsJComboBox(){
-        Iterator programs = loadPrograms().values().iterator();
         selectProgramme.removeAllItems();
 
-        while (programs.hasNext()) {
-            selectProgramme.addItem(programs.next());
-        }
+        loadPrograms().forEach((key, value) -> selectProgramme.addItem( new Item<String>(key.toString(), value.toString() ) ));
 
         content.revalidate();
         content.repaint();
@@ -154,7 +150,7 @@ class NewWatched {
         String code = (String)item.getValue();
 
         selectProgrammeList = DatabaseHandler.getProgrammeName(Integer.parseInt(code));
-        System.out.println(selectProgrammeList);
+
         return selectProgrammeList;
     }
 
