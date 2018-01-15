@@ -22,13 +22,17 @@ class EditWatched {
     private JComboBox<Item<String>> selectProgramme;
     private ArrayList<String> profileInfo;
 
+    //Constructor
     EditWatched(){
+
+        //Maakt de content en layout aan.
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
+        //Maakt de content aan en voegt deze toe en laad gegevens uit de database.
         selectAccountList = new HashMap<Integer,String>();
         selectAccountList.put(0, "--Selecteer profiel--");
         selectAccount = new JComboBox<Item<String>>();
@@ -76,6 +80,7 @@ class EditWatched {
 
         loadPercentage();
 
+        //Triggerd de Percentage lader en JComboBox lader voor abonnees.
         selectAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,6 +89,7 @@ class EditWatched {
             }
         });
 
+        //Triggerd de Percentage lader en JComboBox lader voor abonnees.
         selectProfile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -92,6 +98,7 @@ class EditWatched {
             }
         });
 
+        //Triggerd de Percentage lader
         selectProgramme.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,6 +106,7 @@ class EditWatched {
             }
         });
 
+        // Stuurt de ingevulde gegevens door na de database.
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -134,6 +142,7 @@ class EditWatched {
         });
     }
 
+    //Laad percentage vanuit de database.
     private void loadPercentage() {
         Item proID = (Item)selectProgramme.getSelectedItem();
         String proIDOut = (String)proID.getValue();
@@ -143,6 +152,7 @@ class EditWatched {
         nameValue.setText(DatabaseHandler.getProgrammeParentage(pIDOut, proIDOut).values().toString().replace("[", "").replace("]", ""));
     }
 
+    // Laad JComboBox met abonneegegevens.
     private void loadProfilesJComboBox(){
         Item item = (Item)selectAccount.getSelectedItem();
         String code = (String)item.getValue();
@@ -153,6 +163,7 @@ class EditWatched {
         content.repaint();
     }
 
+    // Laad JComboBox met programmasgegevens.
     private void loadProgramsJComboBox(){
         loadPrograms().forEach((key, value) -> selectProgramme.addItem( new Item<String>(key.toString(), value.toString() )));
 
@@ -160,6 +171,7 @@ class EditWatched {
         content.repaint();
     }
 
+    // Laad de abonneegegevens vanuit de database.
     private Map loadAccounts() {
         selectAccountList.clear();
 
@@ -168,6 +180,7 @@ class EditWatched {
         return selectAccountList;
     }
 
+    // Laad de profielgegevens vanuit de database.
     private Map loadProfiles(int id) {
         selectProfileList.clear();
 
@@ -175,6 +188,7 @@ class EditWatched {
         return selectProfileList;
     }
 
+    // Laad de programma vanuit de database.
     private Map loadPrograms() {
         selectProgrammeList.clear();
 

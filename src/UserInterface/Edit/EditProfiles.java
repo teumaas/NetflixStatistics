@@ -24,13 +24,17 @@ class EditProfiles {
     private int AccountID;
     private String ProfileID;
 
+    //Constructor
     EditProfiles(){
+
+        //Maakt de content en layout aan.
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
+        //Maakt de content aan en voegt deze toe en laad gegevens uit de database.
         selectAccountList = new HashMap<Integer,String>();
         selectAccountList.put(0, "--Selecteer account--");
         selectAccount = new JComboBox(loadAccounts().values().toArray());
@@ -74,6 +78,7 @@ class EditProfiles {
 
         loadProfileInfo();
 
+        //Triggerd de Abonneegegevens JComboBox lader.
         selectAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,7 +86,7 @@ class EditProfiles {
             }
         });
 
-
+        //Triggerd de Profielgegevens lader.
         selectProfile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -89,7 +94,7 @@ class EditProfiles {
             }
         });
 
-
+        // Stuurt de ingevulde gegevens door na de database.
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,6 +129,7 @@ class EditProfiles {
         });
     }
 
+    // Returned profielgegevens vanuit de database.
     public Map loadProfiles() {
         for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {
             if (entry.getValue().equals(selectAccount.getSelectedItem())) {
@@ -135,6 +141,7 @@ class EditProfiles {
         return selectProfileList;
     }
 
+    //Laad profielgegevens in de tekstvelden.
     private void loadProfileInfo() {
         for (Map.Entry<Integer, String> entry : selectProfileList.entrySet()) {
             if (entry.getValue().equals(selectProfile.getSelectedItem())) {
@@ -148,12 +155,14 @@ class EditProfiles {
         }
     }
 
+    // Returned abonneegegevens vanuit de database.
     public Map loadAccounts() {
         selectAccountList = DatabaseHandler.getAccountName();
 
         return selectAccountList;
     }
 
+    // Laad JComboBox met profielgegevens.
     public void loadJComboBox(){
         Iterator list = loadProfiles().values().iterator();
         selectProfile.removeAllItems();

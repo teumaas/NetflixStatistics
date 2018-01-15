@@ -21,7 +21,10 @@ class NewWatched {
     private JComboBox<Item<String>> selectProgramme;
     private ArrayList<String> profileInfo;
 
+    //Constructor
     NewWatched(){
+
+    //Maakt de content en layout aan.
     this.content = new JPanel();
     GridBagLayout layout = new GridBagLayout();
     profileInfo = new ArrayList<String>();
@@ -74,6 +77,7 @@ class NewWatched {
     constraints.gridy = 2;
     this.content.add(submit, constraints);
 
+    //Triggerd de Profielgegevens JComboBox lader.
     selectAccount.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -81,6 +85,7 @@ class NewWatched {
         }
     });
 
+    //Triggerd de Programmagegevens lader.
     selectProfile.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -88,6 +93,7 @@ class NewWatched {
         }
     });
 
+    // Stuurt de ingevulde gegevens door na de database.
     submit.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -143,6 +149,7 @@ class NewWatched {
         content.repaint();
     }
 
+    // Returned gegevens vanuit de database.
     private Map loadAccounts() {
         selectAccountList.clear();
 
@@ -151,6 +158,7 @@ class NewWatched {
         return selectAccountList;
     }
 
+    // Returned gegevens vanuit de database.
     private Map loadProfiles(int id) {
         selectProfileList.clear();
 
@@ -159,6 +167,7 @@ class NewWatched {
         return selectProfileList;
     }
 
+    // Returned gegevens vanuit de database.
     private Map loadPrograms() {
         selectProgrammeList.clear();
 

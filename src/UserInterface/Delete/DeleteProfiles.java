@@ -20,13 +20,16 @@ class DeleteProfiles {
     private int AccountID;
     private int ProfileID;
 
+    //Constructor
     DeleteProfiles() {
+        //Maakt de content en layout aan.
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
+        //Maakt de content aan en voegt deze toe en laad gegevens uit de database.
         selectAccountList = DatabaseHandler.getAccountName();
         selectAccount = new JComboBox(selectAccountList.values().toArray());
 
@@ -47,6 +50,7 @@ class DeleteProfiles {
         constraints.gridy = 2;
         this.content.add(submit, constraints);
 
+        //Triggerd de ComboBox gegevens lader.
         selectAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,7 +58,7 @@ class DeleteProfiles {
             }
         });
 
-
+        // Stuurt de ingevulde gegevens door na de database.
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,6 +81,7 @@ class DeleteProfiles {
         });
     }
 
+    // Laad profiel gegevens.
     public Map loadProfiles() {
         for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {
             if (entry.getValue().equals(selectAccount.getSelectedItem())) {
@@ -88,6 +93,7 @@ class DeleteProfiles {
         return selectProfileList;
     }
 
+    // Laad de JComboBox met profielgegevens.
     public void loadJComboBox(){
         Iterator list = loadProfiles().values().iterator();
         selectProfile.removeAllItems();

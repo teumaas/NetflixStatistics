@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+// Constructor
 public class DatabaseHandler {
     private static String connectionURL;
 
@@ -17,10 +18,12 @@ public class DatabaseHandler {
     private static ResultSet resultSet = null;
     private static PreparedStatement preparedStatement = null;
 
+    // Van de Database connectie string
     public DatabaseHandler(String databaseName, boolean integratedSecurity) {
         connectionURL = "jdbc:sqlserver://localhost\\SQLEXPRESS;databaseName=" + databaseName + ";integratedSecurity="+ integratedSecurity +";";
     }
 
+    // Maakt connectie met de database.
     public static void connect()  {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -31,7 +34,7 @@ public class DatabaseHandler {
             e.printStackTrace();
         }
     }
-
+    // Delete een value uit de database
     public static void delete (String table, String idName, int id) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + table + " WHERE " + idName + " = ?;");
@@ -46,6 +49,7 @@ public class DatabaseHandler {
         }
     }
 
+    // Delete een value uit de database
     public static void delete (String table, String idName, int id, String idNameTwo, int idTwo) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + table + " WHERE " + idName + " = ? AND " + idNameTwo + " = ?;");
@@ -61,17 +65,20 @@ public class DatabaseHandler {
         }
     }
 
+    //Sluit de verbinding af met de database.
     public static void disconnect() {
         if (resultSet != null) try { resultSet.close(); } catch(Exception e) {}
         if (statement != null) try { statement.close(); } catch(Exception e) {}
         if (connection != null) try { connection.close(); } catch(Exception e) {}
     }
 
+    // Test de verbinding met de dataase.
     public static void testConnection()
     {
         connect();
     }
 
+    //Verkrijgt het hoogste id van Abonnee
     public static String getHighestID() {
         int ID = 0;
 
@@ -91,6 +98,7 @@ public class DatabaseHandler {
         return Integer.toString(ID);
     }
 
+    // Verkijgt een accountnaam.
     public static Map getAccountName() {
         Map<Integer,String> accounts = new HashMap<Integer,String>();
 
@@ -108,6 +116,7 @@ public class DatabaseHandler {
         return accounts;
     }
 
+    // Verkijgt een Profielnaam
     public static Map getProfileName(int id) {
         Map<Integer,String> profiles = new HashMap<Integer,String>();
 
@@ -125,6 +134,7 @@ public class DatabaseHandler {
         return profiles;
     }
 
+    //Verkrijgt een Programmanaam
     public static Map getProgrammeName() {
         Map<Integer, String> programs = new HashMap<Integer, String>();
 
@@ -142,6 +152,7 @@ public class DatabaseHandler {
         return programs;
     }
 
+    //Verkrijgt een programma naam als deze bestaat in het profiel.
     public static Map getProgrammeNameIfPercentageExists(String pid) {
         Map<Integer, String> programmas = new HashMap<Integer, String>();
 
@@ -159,6 +170,7 @@ public class DatabaseHandler {
         return programmas;
     }
 
+    //Verkijgt Abonnee informatie.
     public static ArrayList getAccountInformation(int ID) {
         ArrayList<String> accountInfo = new ArrayList<String>();
 
@@ -180,6 +192,7 @@ public class DatabaseHandler {
         return accountInfo;
     }
 
+    //Verkijgt profiel informatie.
     public static ArrayList getProfileInformation(int ID) {
         ArrayList<String> profielInfo = new ArrayList<String>();
 
@@ -198,6 +211,7 @@ public class DatabaseHandler {
         return profielInfo;
     }
 
+    //Verkijgt de Percentage van een programma.
     public static Map getProgrammeParentage(String pid, String proid) {
         Map<Integer, String> programs = new HashMap<Integer, String>();
 
@@ -215,6 +229,7 @@ public class DatabaseHandler {
         return programs;
     }
 
+    // Voert de gevevens in de database in van een account.
     public static ArrayList setAccountInfo(ArrayList info) {
         ArrayList<String> accountInfo = info;
 
@@ -246,6 +261,7 @@ public class DatabaseHandler {
         return accountInfo;
     }
 
+    // update de gevevens in de database
     public static ArrayList updatePercentage(ArrayList info) {
         ArrayList<String> profielInfo = info;
 
@@ -270,6 +286,7 @@ public class DatabaseHandler {
         return profielInfo;
     }
 
+    // update de gevevens in de database
     public static ArrayList setPercentage(ArrayList info) {
         ArrayList<String> profielInfo = info;
 
@@ -294,6 +311,7 @@ public class DatabaseHandler {
         return profielInfo;
     }
 
+    // update de gevevens in de database
     public static ArrayList setProfileInfo(ArrayList info) throws ParseException {
         ArrayList<String> profileInfo = info;
 
@@ -324,7 +342,7 @@ public class DatabaseHandler {
     }
 
 
-
+    // update de gevevens in de database
     public static ArrayList updateProfileInfo(ArrayList info) throws ParseException {
         ArrayList<String> accountInfo = info;
 
@@ -353,6 +371,7 @@ public class DatabaseHandler {
         return accountInfo;
     }
 
+    // update de gevevens in de database
     public static ArrayList updateAccountInfo(ArrayList info) {
         ArrayList<String> accountInfo = info;
 
@@ -383,6 +402,7 @@ public class DatabaseHandler {
         return accountInfo;
     }
 
+    //Verkijgt de langste film
     public static String longestMovieBelowSixteen (){
         String returnValue = null;
 
@@ -404,6 +424,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    //Verkijgt het account met een profiel.
     public static String accountsWithOneProfile(){
         String returnValue = null;
 
@@ -424,6 +445,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    //Verkrijgt alle films.
     public static HashMap getMovies(){
         HashMap<String, Integer> returnValue = new HashMap<String, Integer>();
 
@@ -443,6 +465,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    //Verkrijgt alle films per abonnee.
     public static ArrayList getMoviesWatchedPerAccount(String sqlValue){
         ArrayList<String > returnValue = new ArrayList<String>();
 
@@ -469,6 +492,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    // Verkijgt het account percentage.
     public static String getPercentageAccounts(String sqlValue){
         String returnValue = null;
 
@@ -492,6 +516,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    //Verkijgt alle series.
     public static ArrayList getSeries(){
         ArrayList<String> returnValue = new ArrayList<String>();
 
@@ -510,6 +535,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    // Verkrijgt de episodes/
     public static ArrayList getEpisodes(String sqlValue){
         ArrayList<String> returnValue = new ArrayList<String>();
 
@@ -533,6 +559,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    // Verkijgt de volledig bekeken films.
     public static String getMoviesFullyWatched(String sqlValue){
         String returnValue = null;
 
@@ -554,6 +581,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    //Verkrijgt de gemiddelde percentage van episodes.
     public static String getAveragePercentageEpisode(String sqlValue){
         String returnValue = null;
         try {
@@ -581,6 +609,7 @@ public class DatabaseHandler {
         }
     }
 
+    //Verkijgt een volgnummer.
     public static String getVolgnummer(String sqlValue){
         String returnValue = null;
 
@@ -602,6 +631,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    //Verkrijgt profielen.
     public static ArrayList getProfiles(String sqlValue){
         ArrayList<String> returnValue = new ArrayList<String>();
 
@@ -623,6 +653,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    //Verkrijgt alle programmas.
     public static ArrayList getAllProgrammes(){
         ArrayList<String> returnValue = new ArrayList<String>();
 
@@ -641,6 +672,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    //Verkrijgt bekeken programmas.
     public static ArrayList getProgrammesWatched(String nameValue, String profileValue) {
         ArrayList<String> returnValue = new ArrayList<String>();
 
@@ -666,6 +698,7 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    // Verkrijgt percentage.
     public static String getPercentage(String abonneeNaam, String profielNaam, String titel){
         String returnValue = null;
 

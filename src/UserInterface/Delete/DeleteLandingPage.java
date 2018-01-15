@@ -11,7 +11,9 @@ public class DeleteLandingPage {
     private JPanel subscreen;
     private String[] selectStrings = {"-Selecteer-                                                                     ","Accounts", "Profielen", "Bekeken programma's"};
 
+    //Constructor
     public DeleteLandingPage(){
+        //Maakt de content en layout aan.
         this.content = new JPanel();
         this.subscreen = new JPanel();
 
@@ -19,6 +21,7 @@ public class DeleteLandingPage {
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
+        //Maakt de content aan en voegt deze toe.
         JLabel title = new JLabel("Verwijderen");
         title.setFont(new Font("Arial", Font.BOLD, 20));
         this.constraints.gridx = 0;

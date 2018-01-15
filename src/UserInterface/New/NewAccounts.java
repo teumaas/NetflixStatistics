@@ -20,11 +20,15 @@ class NewAccounts {
     private ArrayList<String> accountInfo;
     private String abonneeID;
 
+    //Constructor
     NewAccounts(){
+
+        //Maakt de content en layout aan.
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
         accountInfo = new ArrayList<String>();
 
+        //Maakt de content aan en voegt deze toe en laad gegevens uit de database.
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
@@ -94,6 +98,7 @@ class NewAccounts {
         constraints.gridy = 6;
         this.content.add(submit, constraints);
 
+        // Stuurt de ingevulde gegevens door na de database.
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

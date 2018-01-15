@@ -23,13 +23,16 @@ class EditAccounts {
     private ArrayList<String> accountInfo;
     private String abonneeID;
 
-    public EditAccounts(){
+    //Constructor
+    EditAccounts(){
+        //Maakt de content en layout aan.
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
+        //Maakt de content aan en voegt deze toe en laad gegevens uit de database.
         selectAccountList = new HashMap<Integer,String> ();
         selectAccountList.put(0, "--Selecteer account--");
         selectAccount = new JComboBox(loadAccounts().values().toArray());
@@ -96,12 +99,14 @@ class EditAccounts {
 
         loadAccountInfo();
 
+        //Triggerd de Abonneegegevens lader.
         selectAccount.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 loadAccountInfo();
             }
         });
 
+        // Stuurt de ingevulde gegevens door na de database.
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -136,6 +141,7 @@ class EditAccounts {
         });
     }
 
+    //Laad abonnee gegevens in de textvelden.
     private void loadAccountInfo() {
         for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {
             if (entry.getValue().equals(selectAccount.getSelectedItem())) {
@@ -155,13 +161,14 @@ class EditAccounts {
         }
     }
 
+    // Returned abonneegegevens vanuit de database.
     public Map loadAccounts() {
         selectAccountList = DatabaseHandler.getAccountName();
 
         return selectAccountList;
     }
 
-
+    // Laad abonneegegevens in JComboBox.
     public void loadJComboBox(){
         Iterator list = loadAccounts().values().iterator();
         int currentIndex = selectAccount.getSelectedIndex();

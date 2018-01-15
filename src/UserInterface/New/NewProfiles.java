@@ -20,13 +20,17 @@ class NewProfiles {
     private int AccountID;
     private String ProfileID;
 
+    //Constructor
     NewProfiles(){
+
+        //Maakt de content en layout aan.
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
+        //Maakt de content aan en voegt deze toe en laad gegevens uit de database.
         profileInfo = new ArrayList<String>();
         selectAccountList = DatabaseHandler.getAccountName();
         selectAccount = new JComboBox(selectAccountList.values().toArray());
@@ -59,6 +63,7 @@ class NewProfiles {
         constraints.gridy = 3;
         this.content.add(submit, constraints);
 
+        // Stuurt de ingevulde gegevens door na de database.
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,6 +99,7 @@ class NewProfiles {
         });
     }
 
+    // Verkrijgt gebruikte ID van abonnee
     public String getCurrentAccountID() {
         String AccountID = null;
         for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {

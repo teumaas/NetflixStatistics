@@ -19,13 +19,17 @@ class DeleteWatched {
     private JComboBox selectProfile;
     private JComboBox selectProgramme;
 
+    //Constructor
     DeleteWatched() {
+
+        //Maakt de content en layout aan.
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
+        //Maakt de content aan en voegt deze toe en laad gegevens uit de database.
         selectAccountList = new HashMap<Integer,String> ();
         selectAccountList.put(0, "--Selecteer account--");
         selectAccount = new JComboBox(loadAccounts().values().toArray());
@@ -54,6 +58,7 @@ class DeleteWatched {
         constraints.gridy = 3;
         this.content.add(submit, constraints);
 
+        //Triggerd de ComboBox gegevens lader.
         selectAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,6 +66,7 @@ class DeleteWatched {
             }
         });
 
+        //Triggerd de ComboBox gegevens lader.
         selectProfile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,6 +74,7 @@ class DeleteWatched {
             }
         });
 
+        // Stuurt de ingevulde gegevens door na de database.
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,12 +95,14 @@ class DeleteWatched {
         });
     }
 
+    // Laad abonnee gegevens.
     public Map loadAccounts() {
         selectAccountList = DatabaseHandler.getAccountName();
 
         return selectAccountList;
     }
 
+    // Verkrijgt ProfielID.
     public int GetProfileID() {
         int ProfileID = 0;
 
@@ -106,7 +115,7 @@ class DeleteWatched {
         return ProfileID;
     }
 
-
+    // Laad profielgegevens.
     private Map loadProfiles() {
         for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {
             if (entry.getValue().equals(selectAccount.getSelectedItem())) {
@@ -118,6 +127,7 @@ class DeleteWatched {
         return selectProfileList;
     }
 
+    // Laad programmagegevens.
     private Map loadPrograms() {
         for (Map.Entry<Integer, String> entry : selectProfileList.entrySet()) {
             if (entry.getValue().equals(selectProfile.getSelectedItem())) {
@@ -129,6 +139,7 @@ class DeleteWatched {
         return selectProgrammeList;
     }
 
+    // Laad JComboBox met Profielgegevens.
     private void loadJComboBox(){
         Iterator list = loadProfiles().values().iterator();
         selectProfile.removeAllItems();
@@ -141,6 +152,7 @@ class DeleteWatched {
         content.repaint();
     }
 
+    // Laad JCombobox met Programmagegevens.
     private void loadProfileJComboBox(){
         Iterator profiles = loadPrograms().values().iterator();
         selectProgramme.removeAllItems();

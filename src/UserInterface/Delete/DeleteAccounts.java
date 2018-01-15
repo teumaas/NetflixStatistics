@@ -15,13 +15,16 @@ class DeleteAccounts {
     private JComboBox selectAccount;
     private int abonneeID;
 
+    //Constructor
     DeleteAccounts(){
+        //Maakt de content en layout aan.
         this.content = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
+        //Maakt de content aan en voegt deze toe.
         selectAccountList = DatabaseHandler.getAccountName();
         selectAccount = new JComboBox(selectAccountList.values().toArray());
 
@@ -35,6 +38,7 @@ class DeleteAccounts {
         constraints.gridy = 1;
         this.content.add(submit, constraints);
 
+        // Stuurt de ingevulde gegevens door na de database.
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,6 +61,7 @@ class DeleteAccounts {
         });
     }
 
+    //Laad de Abonnees in.
     public Map loadAbonnees() {
         for (Map.Entry<Integer, String> entry : selectAccountList.entrySet()) {
             if (entry.getValue().equals(selectAccount.getSelectedItem())) {
@@ -67,6 +72,7 @@ class DeleteAccounts {
         return selectAccountList;
     }
 
+    // Laad de JComboBox met Abonnees.
     public void loadJComboBox(){
         Iterator list = loadAbonnees().values().iterator();
         selectAccount.removeAllItems();
