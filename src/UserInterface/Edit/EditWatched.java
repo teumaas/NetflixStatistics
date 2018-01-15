@@ -89,7 +89,6 @@ class EditWatched {
             public void actionPerformed(ActionEvent e) {
                 loadPercentage();
                 loadProgramsJComboBox();
-
             }
         });
 
@@ -103,21 +102,21 @@ class EditWatched {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                profileInfo = new ArrayList<String>();
+
                 Item profile = (Item)selectProgramme.getSelectedItem();
                 String pid = (String)profile.getValue();
 
                 Item item = (Item)selectProfile.getSelectedItem();
                 String code = (String)item.getValue();
 
-                profileInfo.add(nameValue.getText());
-                profileInfo.add(pid);
+                profileInfo.add(nameValue.getText().toString());
                 profileInfo.add(code);
+                profileInfo.add(pid);
 
-                DatabaseHandler.setPercentage(profileInfo);
+                DatabaseHandler.updatePercentage(profileInfo);
 
                 profileInfo.clear();
-
-                nameValue.setText("            ");
             }
         });
     }
@@ -131,7 +130,7 @@ class EditWatched {
         System.out.println(pIDOut);
         System.out.println(proIDOut);
 
-        nameValue.setText(DatabaseHandler.getProgrammeParentage(pIDOut, proIDOut).values().toString());
+        nameValue.setText(DatabaseHandler.getProgrammeParentage(pIDOut, proIDOut).values().toString().replace("[", "").replace("]", ""));
     }
 
     private void loadProfilesJComboBox(){
@@ -145,12 +144,8 @@ class EditWatched {
     }
 
     private void loadProgramsJComboBox(){
+        loadPrograms().forEach((key, value) -> selectProgramme.addItem( new Item<String>(key.toString(), value.toString() )));
 
-        loadPrograms().forEach((key, value) -> selectProgramme.addItem( new Item<String>(key.toString(), value.toString() ) ));
-
-        DefaultComboBoxModel model = new DefaultComboBoxModel(  );
-        selectProfile.setModel( model );
-        
         content.revalidate();
         content.repaint();
     }
@@ -167,7 +162,6 @@ class EditWatched {
         selectProfileList.clear();
 
         selectProfileList = DatabaseHandler.getProfileName(id);
-
         return selectProfileList;
     }
 

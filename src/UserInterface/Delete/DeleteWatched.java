@@ -115,8 +115,8 @@ class DeleteWatched {
     private Map loadPrograms() {
         for (Map.Entry<Integer, String> entry : selectProfileList.entrySet()) {
             if (entry.getValue().equals(selectProfile.getSelectedItem())) {
-                int ProfileID = entry.getKey();
-                selectProgrammeList = DatabaseHandler.getProgrammeName();
+                String ProfileID = entry.getKey().toString();
+                selectProgrammeList = DatabaseHandler.getProgrammeNameIfPercentageExists(ProfileID);
             }
         }
 

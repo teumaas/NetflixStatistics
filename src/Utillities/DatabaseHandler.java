@@ -126,20 +126,20 @@ public class DatabaseHandler {
     }
 
     public static Map getProgrammeName() {
-        Map<Integer, String> programmas = new HashMap<Integer, String>();
+        Map<Integer, String> programs = new HashMap<Integer, String>();
 
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT Programma.Titel, ProfielProgramma.ProgrammaID FROM Programma JOIN ProfielProgramma ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID;");
 
             while (resultSet.next()) {
-                programmas.put(resultSet.getInt("ProgrammaID"), resultSet.getString("Titel"));
+                programs.put(resultSet.getInt("ProgrammaID"), resultSet.getString("Titel"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return programmas;
+        return programs;
     }
 
     public static Map getProgrammeNameIfPercentageExists(String pid) {
@@ -249,14 +249,16 @@ public class DatabaseHandler {
     public static ArrayList updatePercentage(ArrayList info) {
         ArrayList<String> profielInfo = info;
 
-        String profielID = profielInfo.get(0);
-        String percentage = profielInfo.get(1);
+        String percentage = profielInfo.get(0);
+        String profileID = profielInfo.get(1);
+        String programID = profielInfo.get(2);
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE ProfielProgramma SET ProfielPercentage = ? WHERE ProfielID = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE ProfielProgramma SET ProfielPercentage = ? WHERE ProfielID = ? AND ProgrammaID = ?;");
 
             preparedStatement.setString(1, percentage);
-            preparedStatement.setInt(2, Integer.parseInt(profielID));
+            preparedStatement.setString(2, profileID);
+            preparedStatement.setString(3, programID);
 
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -280,7 +282,7 @@ public class DatabaseHandler {
 
             preparedStatement.setString(1, percentage);
             preparedStatement.setString(2, programID);
-            preparedStatement.setInt(3, Integer.parseInt(profileID));
+            preparedStatement.setString(3, profileID);
 
             preparedStatement.executeUpdate();
             preparedStatement.close();

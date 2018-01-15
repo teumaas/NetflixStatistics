@@ -97,23 +97,40 @@ class NewAccounts {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 accountInfo.add(idValue.getText());
-                accountInfo.add(nameValue.getText());
-                accountInfo.add(addressValue.getText());
-                accountInfo.add(houseNumberValue.getText());
-                accountInfo.add(postalCodeValue.getText());
-                accountInfo.add(placeValue.getText());
+                if (nameValue.getText().matches("[a-zA-Z- ]{1,64}") && addressValue.getText().matches("[a-zA-Z- ]{1,64}"))
+                    // && houseNumberValue.getText().matches("[0-9A-Z]{1,8}") &&  postalCodeValue.getText().matches("[0-9]{4}( ){1}[A-Z]{2}") && placeValue.getText().matches("[a-zA-Z- ]{1,64}"))
+                {
+                    accountInfo.add(idValue.getText());
+                    accountInfo.add(nameValue.getText());
+                    accountInfo.add(addressValue.getText());
+                    accountInfo.add(houseNumberValue.getText());
+                    accountInfo.add(postalCodeValue.getText());
+                    accountInfo.add(placeValue.getText());
 
-                DatabaseHandler.setAccountInfo(accountInfo);
+                    DatabaseHandler.setAccountInfo(accountInfo);
 
-                accountInfo.clear();
+                    accountInfo.clear();
 
-                idValue.setText(DatabaseHandler.getHighestID());
-                nameValue.setText("            ");
-                addressValue.setText("            ");
-                houseNumberValue.setText("            ");
-                postalCodeValue.setText("            ");
-                placeValue.setText("            ");
+                    idValue.setText(DatabaseHandler.getHighestID());
+                    nameValue.setText("            ");
+                    addressValue.setText("            ");
+                    houseNumberValue.setText("            ");
+                    postalCodeValue.setText("            ");
+                    placeValue.setText("            ");
+
+                    JOptionPane.showMessageDialog(content,
+                            "De gegevens zijn toegevoegd aan de database.",
+                            "Succes!",
+                            JOptionPane.QUESTION_MESSAGE);
+                }
+                else {
+                    JOptionPane.showMessageDialog(content,
+                            "Controleer de ingevoerde gegevens...",
+                            "Validatiefout!",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
