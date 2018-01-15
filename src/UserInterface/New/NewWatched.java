@@ -97,15 +97,27 @@ class NewWatched {
             Item item = (Item)selectProfile.getSelectedItem();
             String code = (String)item.getValue();
 
-            profileInfo.add(nameValue.getText());
-            profileInfo.add(pid);
-            profileInfo.add(code);
+            if (nameValue.getText().matches("([0-9]{2})|([0-9]{1})|((100){1})")) {
+                profileInfo.add(nameValue.getText());
+                profileInfo.add(pid);
+                profileInfo.add(code);
 
-            DatabaseHandler.setPercentage(profileInfo);
+                DatabaseHandler.setPercentage(profileInfo);
 
-            profileInfo.clear();
+                profileInfo.clear();
 
-            nameValue.setText("            ");
+                nameValue.setText("            ");
+                JOptionPane.showMessageDialog(content,
+                        "De gegevens zijn toegevoegd aan de database.",
+                        "Succes!",
+                        JOptionPane.QUESTION_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(content,
+                        "Controleer de ingevoerde gegevens...",
+                        "Validatiefout!",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
     });
     }

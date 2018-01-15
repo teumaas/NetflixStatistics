@@ -98,9 +98,7 @@ class NewAccounts {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                accountInfo.add(idValue.getText());
-                if (nameValue.getText().matches("[a-zA-Z- ]{1,64}") && addressValue.getText().matches("[a-zA-Z- ]{1,64}"))
-                    // && houseNumberValue.getText().matches("[0-9A-Z]{1,8}") &&  postalCodeValue.getText().matches("[0-9]{4}( ){1}[A-Z]{2}") && placeValue.getText().matches("[a-zA-Z- ]{1,64}"))
+                if (nameValue.getText().matches("[a-zA-Z- .]{1,64}") && addressValue.getText().matches("[a-zA-Z- ]{1,64}") && houseNumberValue.getText().matches("[0-9A-Z]{1,8}") &&  postalCodeValue.getText().matches("[0-9]{4}( ){1}[A-Z]{2}") && placeValue.getText().matches("[a-zA-Z- ]{1,64}"))
                 {
                     accountInfo.add(idValue.getText());
                     accountInfo.add(nameValue.getText());

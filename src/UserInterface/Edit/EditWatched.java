@@ -102,21 +102,34 @@ class EditWatched {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                profileInfo = new ArrayList<String>();
+                if (nameValue.getText().matches("([0-9]{2})|([0-9]{1})|((100){1})")) {
+                    profileInfo = new ArrayList<String>();
 
-                Item profile = (Item)selectProgramme.getSelectedItem();
-                String pid = (String)profile.getValue();
+                    Item profile = (Item)selectProgramme.getSelectedItem();
+                    String pid = (String)profile.getValue();
 
-                Item item = (Item)selectProfile.getSelectedItem();
-                String code = (String)item.getValue();
+                    Item item = (Item)selectProfile.getSelectedItem();
+                    String code = (String)item.getValue();
 
-                profileInfo.add(nameValue.getText().toString());
-                profileInfo.add(code);
-                profileInfo.add(pid);
+                    profileInfo.add(nameValue.getText().toString());
+                    profileInfo.add(code);
+                    profileInfo.add(pid);
 
-                DatabaseHandler.updatePercentage(profileInfo);
+                    DatabaseHandler.updatePercentage(profileInfo);
 
-                profileInfo.clear();
+                    profileInfo.clear();
+
+                    JOptionPane.showMessageDialog(content,
+                            "De gegevens zijn toegevoegd aan de database.",
+                            "Succes!",
+                            JOptionPane.QUESTION_MESSAGE);
+                }
+                else {
+                    JOptionPane.showMessageDialog(content,
+                            "Controleer de ingevoerde gegevens...",
+                            "Validatiefout!",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
@@ -126,9 +139,6 @@ class EditWatched {
         String proIDOut = (String)proID.getValue();
         Item pID = (Item)selectProfile.getSelectedItem();
         String pIDOut = (String)pID.getValue();
-
-        System.out.println(pIDOut);
-        System.out.println(proIDOut);
 
         nameValue.setText(DatabaseHandler.getProgrammeParentage(pIDOut, proIDOut).values().toString().replace("[", "").replace("]", ""));
     }

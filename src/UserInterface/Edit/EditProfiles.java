@@ -93,19 +93,33 @@ class EditProfiles {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                profileInfo.add(ProfileID);
-                profileInfo.add(nameValue.getText());
-                profileInfo.add(dateOfBirthValue.getText());
+                if (nameValue.getText().matches("[a-zA-Z- .]{1,64}") && dateOfBirthValue.getText().matches("((((19){1}(0){1}(4|8){1})|((19){1}(1|3|5|7|9){1}(2|6){1})|((19){1}(2|4|6|8){1}(0|4|8){1}))|(((20){1}(0|2|4|6|8){1}(0|4|8))|((20){1}(1|3|5|7|9){1}(2|6){1}))((-){1})(((((0){1}(1|3|5|7|8){1})|((1){1}(0|2){1}))((-){1})((0){1}[1-9]{1}|[1-2]{1}[0-9]{1}|(3){1}[0-1]{1}))|((((0){1}(4|6|9){1})|((1){1}(1){1}))((-){1})((0){1}[1-9]{1}|[1-2]{1}[0-9]{1}|(3){1}(0){1}))|((((0){1}(2){1})|((1){1}(1){1}))((-){1})((0){1}[1-9]{1}|[1-2]{1}[0-9]{1}))))|((((19){1}(0|2|4|6|8){1}(1|2|3|5|6|7|9){1})|((19){1}(1|3|5|7|9){1}(0|1|3|4|5|7|8|9){1})|((20){1}(0){1}(1|2|3|5|6|7|9){1})|(20{1}(1){1}(0|1|3|4|5|7){1}))((-){1})(((((0){1}(1|3|5|7|8){1})|((1){1}(0|2){1}))((-){1})((0){1}[1-9]{1}|[1-2]{1}[0-9]{1}|(3){1}[0-1]{1}))|((((0){1}(4|6|9){1})|((1){1}(1){1}))((-){1})((0){1}[1-9]{1}|[1-2]{1}[0-9]{1}|(3){1}(0){1}))|((((0){1}(2){1})|((1){1}(1){1}))((-){1})((0){1}[1-9]{1}|[1-2]{1}[0-8]{1}))))"))
+                {
+                    profileInfo.add(ProfileID);
+                    profileInfo.add(nameValue.getText());
+                    profileInfo.add(dateOfBirthValue.getText());
 
-                try {
-                    DatabaseHandler.updateProfileInfo(profileInfo);
-                } catch (ParseException e1) {
-                    e1.printStackTrace();
+                    try {
+                        DatabaseHandler.updateProfileInfo(profileInfo);
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    profileInfo.clear();
+                    loadProfileInfo();
+                    loadJComboBox();
+
+                    JOptionPane.showMessageDialog(content,
+                            "De gegevens zijn toegevoegd aan de database.",
+                            "Succes!",
+                            JOptionPane.QUESTION_MESSAGE);
                 }
-
-                profileInfo.clear();
-                loadProfileInfo();
-                loadJComboBox();
+                else {
+                    JOptionPane.showMessageDialog(content,
+                            "Controleer de ingevoerde gegevens...",
+                            "Validatiefout!",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
