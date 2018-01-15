@@ -75,6 +75,12 @@ class DeleteWatched {
                     if (entry.getValue().equals(selectProgramme.getSelectedItem())) {
                         int ProgramID = entry.getKey();
                         DatabaseHandler.delete("ProfielProgramma", "ProfielID", GetProfileID(), "ProgrammaID", ProgramID);
+
+                        JOptionPane.showMessageDialog(content,
+                                "De gegevens zijn verwijderd uit de database.",
+                                "Succes!",
+                                JOptionPane.QUESTION_MESSAGE);
+
                         loadJComboBox();
                     }
                 }

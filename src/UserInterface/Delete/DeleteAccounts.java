@@ -44,6 +44,11 @@ class DeleteAccounts {
 
                         DatabaseHandler.delete("Abonnee", "AbonneeID", abonneeID);
 
+                        JOptionPane.showMessageDialog(content,
+                                "De gegevens zijn verwijderd uit de database.",
+                                "Succes!",
+                                JOptionPane.QUESTION_MESSAGE);
+
                         loadJComboBox();
                     }
                 }
