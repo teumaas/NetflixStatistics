@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//Constructor
 public class EditLandingPage {
     private GridBagConstraints constraints = new GridBagConstraints();
     private JPanel content;
@@ -12,11 +13,12 @@ public class EditLandingPage {
     private String[] selectStrings = {"-Selecteer-                                                                     ","Accounts", "Profielen", "Bekeken programma's"};
 
     public EditLandingPage() {
+        //Maakt de content en layout aan.
         this.content = new JPanel();
         this.subscreen = new JPanel();
 
         GridBagLayout layout = new GridBagLayout();
-
+        //Maakt de content aan en voegt deze toe.
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
@@ -43,6 +45,7 @@ public class EditLandingPage {
         selectList.addActionListener(actionListener);
     }
 
+    // Select de value van de geselecteerde dropdown.
     private void selectedString(ItemSelectable is) {
         Object selected[] = is.getSelectedObjects();
         String selectedValue = ((String)selected[0]);
@@ -63,12 +66,12 @@ public class EditLandingPage {
             createEditWatched();
         }
     }
-
+    //Ververst het scherm.
     private void clearScreen(){
         this.subscreen.removeAll();
         this.content.validate();
     }
-
+    //Genereerd het subscreen van Accounts
     private void createEditAccounts(){
         this.subscreen.removeAll();
 
@@ -79,7 +82,7 @@ public class EditLandingPage {
         this.content.add(this.subscreen, this.constraints);
         this.content.validate();
     }
-
+    //Genereerd het subscreen van Profielen
     private void createEditProfiles(){
         this.subscreen.removeAll();
 
@@ -90,7 +93,7 @@ public class EditLandingPage {
         this.content.add(this.subscreen, this.constraints);
         this.content.validate();
     }
-
+    //Genereerd het subscreen van Bekeken
     private void createEditWatched(){
         this.subscreen.removeAll();
 

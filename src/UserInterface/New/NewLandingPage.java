@@ -12,7 +12,10 @@ public class NewLandingPage {
     private JPanel subscreen;
     private String[] selectStrings = {"-Selecteer-                                                                     ","Accounts", "Profielen", "Bekeken programma's"};
 
+    //Constructor
     public NewLandingPage(){
+
+        //Maakt de content en layout aan.
         this.content = new JPanel();
         this.subscreen = new JPanel();
 
@@ -21,6 +24,7 @@ public class NewLandingPage {
         GridBagConstraints constraints = new GridBagConstraints();
         this.content.setLayout(layout);
 
+        //Maakt de content aan en voegt deze toe.
         JLabel title = new JLabel("Toevoegen");
         title.setFont(new Font("Arial", Font.BOLD, 20));
         this.constraints.gridx = 0;
@@ -44,6 +48,7 @@ public class NewLandingPage {
         selectList.addActionListener(actionListener);
     }
 
+    // Select de value van de geselecteerde dropdown.
     private void selectedString(ItemSelectable is) {
         Object selected[] = is.getSelectedObjects();
         String selectedValue = ((String)selected[0]);
@@ -65,11 +70,13 @@ public class NewLandingPage {
         }
     }
 
+    //Ververst het scherm.
     private void clearScreen(){
         this.subscreen.removeAll();
         this.content.validate();
     }
 
+    //Genereerd het subscreen van Accounts
     private void createNewAccounts(){
         this.subscreen.removeAll();
 
@@ -81,6 +88,7 @@ public class NewLandingPage {
         this.content.validate();
     }
 
+    //Genereerd het subscreen van Profielen
     private void createNewProfiles(){
         this.subscreen.removeAll();
 
@@ -91,7 +99,7 @@ public class NewLandingPage {
         this.content.add(this.subscreen, this.constraints);
         this.content.validate();
     }
-
+    //Genereerd het subscreen van Bekeken
     private void createNewWatched(){
         this.subscreen.removeAll();
 

@@ -45,6 +45,7 @@ public class DeleteLandingPage {
         selectList.addActionListener(actionListener);
     }
 
+    // Select de value van de geselecteerde dropdown.
     private void selectedString(ItemSelectable is) {
         Object selected[] = is.getSelectedObjects();
         String selectedValue = ((String)selected[0]);
@@ -66,11 +67,13 @@ public class DeleteLandingPage {
         }
     }
 
+    //Ververst het scherm.
     private void clearScreen(){
         this.subscreen.removeAll();
         this.content.validate();
     }
 
+    //Genereerd het subscreen van Accounts
     private void createDeleteAccounts(){
         this.subscreen.removeAll();
 
@@ -82,6 +85,7 @@ public class DeleteLandingPage {
         this.content.validate();
     }
 
+    //Genereerd het subscreen van Profiel
     private void createDeleteProfiles(){
         this.subscreen.removeAll();
 
@@ -93,6 +97,7 @@ public class DeleteLandingPage {
         this.content.validate();
     }
 
+    //Genereerd het subscreen van Bekeken.
     private void createDeleteWatched(){
         this.subscreen.removeAll();
 
