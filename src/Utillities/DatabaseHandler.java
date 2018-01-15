@@ -433,9 +433,11 @@ public class DatabaseHandler {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT AVG(ProfielPercentage) AS AveragePercentage\n" +
                     "FROM ProfielProgramma\n" +
+                    "JOIN Profiel\n" +
+                    "ON ProfielProgramma.ProfielID = Profiel.ProfielID\n" +
                     "JOIN Abonnee\n" +
-                    "ON ProfielProgramma.AbonneeID = Abonnee.AbonneeID\n" +
-                    "WHERE Naam = '"+ sqlValue +"';");
+                    "ON Profiel.AbonneeID = Abonnee.AbonneeID\n" +
+                    "WHERE Abonnee.Naam = '"+ sqlValue +"';");
 
             while (resultSet.next()){
                 returnValue = resultSet.getString("AveragePercentage");
@@ -535,5 +537,94 @@ public class DatabaseHandler {
         } else {
             return returnValue;
         }
+    }
+
+    public static ArrayList getProfiles(String sqlValue){
+        ArrayList<String> returnValue = new ArrayList<String>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT Profiel.Naam\n" +
+                    "FROM Profiel\n" +
+                    "JOIN Abonnee\n" +
+                    "ON Profiel.AbonneeID = Abonnee.AbonneeID\n" +
+                    "WHERE Abonnee.Naam = '"+ sqlValue +"';");
+
+            while (resultSet.next()){
+                returnValue.add(resultSet.getString("Naam"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return returnValue;
+    }
+
+    public static ArrayList getAllProgrammes(){
+        ArrayList<String> returnValue = new ArrayList<String>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT Titel\n" +
+                    "FROM Programma;");
+
+            while (resultSet.next()){
+                returnValue.add(resultSet.getString("Titel"));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return returnValue;
+    }
+
+    public static ArrayList getProgrammesWatched(String nameValue, String profileValue) {
+        ArrayList<String> returnValue = new ArrayList<String>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT Titel\n" +
+                    "FROM Programma\n" +
+                    "JOIN ProfielProgramma\n" +
+                    "ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID\n" +
+                    "JOIN Profiel\n" +
+                    "ON Profiel.ProfielID = ProfielProgramma.ProfielID\n" +
+                    "JOIN Abonnee\n" +
+                    "ON Abonnee.AbonneeID = Profiel.AbonneeID\n" +
+                    "WHERE Abonnee.Naam = '" + nameValue + "' AND Profiel.Naam = '" + profileValue + "';");
+
+            while (resultSet.next()) {
+                returnValue.add(resultSet.getString("Titel"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return returnValue;
+    }
+
+    public static String getPercentage(String abonneeNaam, String profielNaam, String titel){
+        String returnValue = null;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT ProfielPercentage\n" +
+                    "FROM ProfielProgramma\n" +
+                    "JOIN Programma\n" +
+                    "ON Programma.ProgrammaID = ProfielProgramma.ProgrammaID\n" +
+                    "JOIN Profiel \n" +
+                    "ON Profiel.ProfielID = ProfielProgramma.ProfielID\n" +
+                    "JOIN Abonnee\n" +
+                    "ON Profiel.AbonneeID = Abonnee.AbonneeID\n" +
+                    "WHERE Profiel.Naam = '"+ abonneeNaam +"' AND Abonnee.Naam = '"+ profielNaam +"' AND Programma.Titel = '"+ titel +"';");
+
+            while (resultSet.next()){
+                returnValue = resultSet.getString("ProfielPercentage");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return returnValue;
     }
 }
